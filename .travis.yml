@@ -1,0 +1,7 @@
+before_deploy: "echo 'ready?'"
+deploy:
+  provider: firebase
+  token:
+    secure: 1//0cvBvRlfTRHvUCgYIARAAGAwSNwF-L9IrGJNB_HySpvw8HgDnfiFpYKUThWEymYpf4Co5dmnjY2ckISafkpWd42FDxz05qN9efFE
+  project: "schoolbook-dpua"
+  message: "Deploying!!!"
