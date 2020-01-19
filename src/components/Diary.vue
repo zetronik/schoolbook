@@ -24,7 +24,7 @@
                                 <tbody>
                                 <tr v-for="(day, index) in item.dayLesson" :key="index">
                                     <td>
-                                        <v-icon @click="editHomework(day.lesson, item.dayLesson, index, dayWeek, day.homework)">mdi-pencil</v-icon>
+                                        <v-icon @click="editHomework(day.lesson, item.dayLesson, index, i, day.homework)">mdi-pencil</v-icon>
                                         {{day.lesson}}</td>
                                     <td>
                                         {{day.homework}}
