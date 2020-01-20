@@ -32,7 +32,7 @@
                                       :items="group"
                                       item-text="school"
                                       item-value="id"
-                                      label="Group change"
+                                      label="Class change"
                                       return-object
                             ></v-select>
                         </v-col>
@@ -62,7 +62,7 @@
                 <v-col cols="12" md="12">
                     <h3 class="text--secondary text-center">Расписание уроков</h3>
                     <v-btn :disabled="btnSave" :loading="loading" @click="saveDiary" color="secondary">Save</v-btn>
-                    <v-btn :loading="loading" @click="writeIn" color="accent" class="ml-2">Write in</v-btn>
+                    <v-btn :loading="loading" @click="writeIn" color="accent">Write in</v-btn>
                 </v-col>
                 <v-col cols="12" md="4" v-for="(day, dayWeek) in diary">
                     <p class="text--primary text-center display-1">{{day.dayWeeks}}</p>
@@ -156,10 +156,6 @@
                 sessionStorage.name = this.name;
                 this.$store.state.settings.surname = this.surname;
                 sessionStorage.surname = this.surname;
-                this.$store.state.settings.level = this.levelSelect;
-                sessionStorage.level = this.levelSelect;
-                this.$store.state.settings.group = this.groupSelect;
-                sessionStorage.group = this.groupSelect;
                 const setUser = {
                     level: this.levelSelect,
                     group: this.groupSelect,
@@ -207,9 +203,7 @@
                 this.writeIn();
                 this.btnSave = true
             }
-            if (sessionStorage.years === undefined) {
-                this.years = new Date().getFullYear();
-            } else if (sessionStorage.years === 'undefined') {
+            if (sessionStorage.years === 'undefined') {
                 this.years = new Date().getFullYear();
             } else {
                 this.years = sessionStorage.years;
@@ -224,7 +218,6 @@
             this.items = this.$store.state.settings.items;
         },
         beforeDestroy: function () {
-            this.saveDiary();
             this.items = []
         }
     }
