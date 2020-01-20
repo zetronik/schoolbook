@@ -36,7 +36,6 @@ export default {
             commit('setLoading', true);
             try {
                 const user = await firebase.auth().signInWithEmailAndPassword(email, password);
-                sessionStorage.id = user.user.uid;
                 await firebase.database().ref(`${user.user.uid}/settings/`).once('value')
                     .then(function(snapshot) {
                         if (snapshot.val() && snapshot.val()) {
@@ -59,6 +58,13 @@ export default {
             try {
                 await firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
+                        firebase.database().ref(`${user.uid}/settings/`).once('value')
+                            .then(function(snapshot) {
+                                if (snapshot.val() && snapshot.val()) {
+                                    const setting = snapshot.val();
+                                    commit('setSettings', setting)
+                                }
+                            });
                         sessionStorage.id = user.uid;
                         commit('setUser', new User(user.uid));
                     } else {
