@@ -39,7 +39,7 @@ build/Release
 
 # Dependency directories
 node_modules/
-dist
+dist/
 .idea
 jspm_packages/
 
