@@ -4,7 +4,7 @@
             <set-user></set-user>
         </v-container>
         <v-container>
-            <create-diary></create-diary>
+            <create-diary :writeIn="writeIn"></create-diary>
         </v-container>
         <v-container>
             <v-row class="d-flex justify-space-around">

@@ -17,6 +17,7 @@
 
 <script>
     export default {
+        props: ['writeIn'],
         data: () => ({
             years: null,
             book: {},
@@ -62,7 +63,8 @@
                 await this.$store.dispatch('createDiary', create);
                 this.$store.state.settings.year = this.years;
                 sessionStorage.years = this.years;
-                this.writeIn()
+                this.writeIn();
+                this.edit = true
             }
         },
         created() {

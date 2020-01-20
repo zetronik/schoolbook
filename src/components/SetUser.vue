@@ -86,6 +86,7 @@
                     surname: this.surname
                 };
                 await this.$store.dispatch('saveSetting', setUser);
+                this.edit = true
             }
         },
         async created() {
