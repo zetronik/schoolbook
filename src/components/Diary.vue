@@ -140,6 +140,9 @@
         },
         created() {
             this.download()
+        },
+        beforeDestroy() {
+            this.syncDiary()
         }
     }
 </script>
