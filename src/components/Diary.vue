@@ -1,7 +1,13 @@
 <template>
     <v-row>
+        <v-col v-if="loading">
+            <v-progress-linear
+                    indeterminate
+                    color="green"
+            ></v-progress-linear>
+        </v-col>
         <v-col
-                v-if="!loading"
+
                 sm="12"
                 lg="12"
 
@@ -36,12 +42,6 @@
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
-        </v-col>
-        <v-col v-else>
-            <v-progress-linear
-                    indeterminate
-                    color="green"
-            ></v-progress-linear>
         </v-col>
         <v-col cols="12" md="12" class="d-flex justify-space-between align-center wrap">
             <v-btn @click="syncDiary" color="secondary">Save</v-btn>
@@ -122,6 +122,7 @@
                 this.dialog = false;
                 this.$parent.diaryWeek[this.day].dayLesson[this.index].homework = this.work;
                 this.$parent.diaryWeek[this.day].dayLesson[this.index].lesson = this.less;
+                this.syncDiary()
             },
             async download () {
                 await this.$store.dispatch('pastWeeks', this.start);
