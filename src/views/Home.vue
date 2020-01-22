@@ -1,6 +1,6 @@
 <template>
   <div class="home d-flex justify-center align-center">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <h1 class="text-center display-2 font-weight-bold">My School Diary</h1>
   </div>
 </template>
 
