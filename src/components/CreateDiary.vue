@@ -8,7 +8,7 @@
                         :items="selectYears"
                         label="Выбрать начало учебного года"
                 ></v-select>
-                <v-btn @click="createDiary" color="secondary">Create Diary</v-btn>
+                <v-btn :disabled="edit" @click="createDiary" color="secondary">Create Diary</v-btn>
                 <v-btn @click="edit = !edit" color="error" class="ml-2">Edit</v-btn>
             </v-col>
         </v-row>
