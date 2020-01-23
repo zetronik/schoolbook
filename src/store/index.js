@@ -4,6 +4,7 @@ import user from './user'
 import shared from './shared'
 import settings from './settings'
 import diary from './diary'
+import admin from "./admin";
 
 Vue.use(Vuex);
 
@@ -15,6 +16,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    user, shared, settings, diary
+    user, shared, settings, diary, admin
   }
 })
