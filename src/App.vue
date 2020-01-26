@@ -87,6 +87,7 @@
                     return [
                         {title: 'Home', url: '/', icon: 'mdi-home'},
                         {title: 'Dashboard', url: '/dashboard', icon: 'mdi-view-dashboard'},
+                        {title: 'Global diary', url: '/admin', icon: 'mdi-settings'},
                         {title: 'Settings', url: '/settings', icon: 'mdi-settings'},
                     ]
                 }

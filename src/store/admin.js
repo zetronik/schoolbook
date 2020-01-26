@@ -43,6 +43,7 @@ export default {
             commit('setLoading', true);
             try {
                 const schoolId = await firebase.database().ref(`globalDiary/`).push(payload);
+                sessionStorage.schoolId = schoolId.path.pieces_[1];
                 commit('setSchoolId', schoolId.path.pieces_[1]);
                 commit('setLoading', false)
             } catch (error) {
@@ -70,6 +71,18 @@ export default {
                 throw error
             }
         },
+        async newDiary ({ commit }, payload) {
+            commit('clearError');
+            commit('setLoading', true);
+            try {
+                await firebase.database().ref(`globalDiary/${payload.id}/globalDiary`).update(payload.cl);
+                commit('setLoading', false)
+            } catch (error) {
+                commit('setError', error.message);
+                commit('setLoading', false);
+                throw error
+            }
+        }
     },
     getters: {}
 }
