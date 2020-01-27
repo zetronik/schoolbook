@@ -2,7 +2,11 @@
     <v-container>
         <v-row>
             <v-col cols="12">
-                <v-select dense
+                <v-btn to="/global"><v-icon>mdi-arrow-left-circle</v-icon>back to the global diary</v-btn>
+            </v-col>
+            <v-col cols="12">
+                <v-select outlined
+                          :loading="loadItem"
                           v-model="select"
                           :items="items"
                           item-text="school"
@@ -12,10 +16,8 @@
                 ></v-select>
             </v-col>
             <v-col>
-<!--                <v-btn @click="setSchool" color="primary">download</v-btn>-->
                 <v-btn :disabled="getBtn" @click="getSchool" color="primary">New Diary</v-btn>
                 <v-btn class="ml-2" :disabled="joinBtn" @click="joinDiary(join)" color="primary">Join Diary {{join.join('')}}</v-btn>
-<!--                <v-btn @click="bruteForce" color="primary">Brute Force</v-btn>-->
             </v-col>
         </v-row>
         <v-row>
@@ -86,7 +88,7 @@
                                               label="Group change"
                                               return-object
                                     ></v-select>
-                                    <v-btn @click="newDiary" color="primary">New Diary</v-btn>
+                                    <v-btn @click="newDiary" color="primary">Join New Diary</v-btn>
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list-item-group>
@@ -159,6 +161,7 @@
             return {
                 getBtn: true,
                 loading: false,
+                loadItem: false,
                 items: [],
                 search: null,
                 select: null,
@@ -182,31 +185,48 @@
             }
         },
         methods: {
+            //загрузка наименования школ
             async setSchool () {
-                await this.$store.dispatch('downloadSchool');
-                this.items = this.$store.state.admin.school
+                this.loadItem = true;
+                await this.$store.dispatch('schoolItem');
+                this.items = this.$store.state.settings.items;
+                setTimeout(() => {
+                    this.select = this.$store.state.settings.items.find(i => i.id === sessionStorage.select);
+                    this.loadItem = false;
+                }, 2000);
             },
+            //создание класса, группы и дневника в выбранной школе (еще не создан ни один дневник)
             async getSchool () {
-                const school = {
+                const school = [{
                     globalDiary: {
                             [this.levelSelect]: {
                                 [this.groupSelect]: {
                                     admin: `${sessionStorage.name} ${sessionStorage.surname}`,
-                                    diary: {}
+                                    diary: ''
                                 }
                             }
                         },
                     region: this.region,
                     locality: this.locality,
                     ...this.select
-                };
-                console.log(school);
+                    },
+                    {adminDiary: {
+                            //idDiary: this.schoolId,
+                            lvl: this.levelSelect,
+                            grp: this.groupSelect
+                        }
+                    }
+                ];
                 await this.$store.dispatch('uploadSchool', school);
+                this.global();
+                this.bruteForce()
             },
+            //загрузка скиска школ с глобальными дневниками
             async global () {
                 await this.$store.dispatch('searchSchool');
                 this.globalSchool = this.$store.state.admin.globalSchool
             },
+            //проверка на существование по выбранной школе созданы дневников
             bruteForce () {
                 for (let [key, val] of Object.entries(this.globalSchool)) {
                     if (val.id === this.select.id) {
@@ -226,39 +246,51 @@
                     }
                 }
             },
+            //создание класса, группы и нового глобального дневника в выбранной школе (уже созады дневники по классам)
             async newDiary () {
                 const newD = {
                     id: this.schoolId,
                     cl: {[this.levelSelect]: {
                         [this.groupSelect]: {
-                            admin: `${sessionStorage.name} ${sessionStorage.surname}`
+                            admin: `${sessionStorage.name} ${sessionStorage.surname}`,
+                            diary: ''
                         }
                         }}
                 };
                 const setUser = {
-                    idDiary: this.schoolId,
-                    lvl: this.levelSelect,
-                    grp: this.groupSelect
+                    adminDiary: {
+                        idDiary: this.schoolId,
+                        lvl: this.levelSelect,
+                        grp: this.groupSelect
+                    }
                 };
+                await this.$store.dispatch('saveSetting', setUser);
                 await this.$store.dispatch('newDiary', newD);
             },
+            //выбор существующего глобально дневника для дальнейшего подключения
             async setDiary (val) {
                 this.join = Array.from(val);
                 this.joinBtn = false
             },
+            //присоеденится к выбранному глобальному дневнику
             async joinDiary (val) {
                 const setUser = {
-                    idDiary: this.schoolId,
-                    lvl: val[0],
-                    grp: val[1]
+                    joinDiary: {
+                        idDiary: this.schoolId,
+                        lvl: val[0],
+                        grp: val[1],
+                        access: true
+                    }
                 };
-                await this.$store.dispatch('saveSetting', setUser)
-                console.log(setUser)
+                await this.$store.dispatch('saveSetting', setUser);
+                await this.$store.dispatch('addUserForDiary', setUser);
             }
         },
         created () {
             this.setSchool();
-            this.global()
+            this.global();
+        },
+        beforeCreate () {
 
         },
         beforeDestroy() {

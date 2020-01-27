@@ -7,6 +7,7 @@ import Settings from '../views/Settings.vue'
 import Login from '../views/Login.vue'
 import Registration from '../views/Registration.vue'
 import Admin from "../views/Admin";
+import Global from "../views/Global";
 
 Vue.use(VueRouter);
 
@@ -44,9 +45,15 @@ const routes = [
     component: Registration
   },
   {
-    path: '/admin',
+    path: '/global/admin',
     name: 'admin',
     component: Admin,
+    AuthGuard
+  },
+  {
+    path: '/global',
+    name: 'global',
+    component: Global,
     AuthGuard
   },
 ];

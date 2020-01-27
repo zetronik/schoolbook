@@ -8,9 +8,6 @@ export default {
         globalSchool: null
     },
     mutations: {
-        setSchool (state, payload) {
-            state.school = payload
-        },
         setSchoolId (state, payload) {
             state.schoolId = payload
         },
@@ -19,31 +16,14 @@ export default {
         }
     },
     actions: {
-        async downloadSchool ({ commit }, payload) {
-            commit('clearError');
-            commit('setLoading', true);
-            try {
-                await firebase.database().ref(`school/49000`)
-                    .once('value')
-                    .then(function(snapshot) {
-                        if (snapshot.val() && snapshot.val()) {
-                            const items = snapshot.val();
-                            commit('setSchool', items)
-                        }
-                    });
-                commit('setLoading', false)
-            } catch (error) {
-                commit('setError', error.message);
-                commit('setLoading', false);
-                throw error
-            }
-        },
         async uploadSchool ({ commit }, payload) {
             commit('clearError');
             commit('setLoading', true);
             try {
-                const schoolId = await firebase.database().ref(`globalDiary/`).push(payload);
+                const schoolId = await firebase.database().ref(`globalDiary/`).push(payload[0]);
+                payload[1].adminDiary.idDiary = schoolId.path.pieces_[1];
                 sessionStorage.schoolId = schoolId.path.pieces_[1];
+                await firebase.database().ref(`${sessionStorage.id}/settings`).update(payload[1]);
                 commit('setSchoolId', schoolId.path.pieces_[1]);
                 commit('setLoading', false)
             } catch (error) {
@@ -76,6 +56,26 @@ export default {
             commit('setLoading', true);
             try {
                 await firebase.database().ref(`globalDiary/${payload.id}/globalDiary`).update(payload.cl);
+                commit('setLoading', false)
+            } catch (error) {
+                commit('setError', error.message);
+                commit('setLoading', false);
+                throw error
+            }
+        },
+        async addUserForDiary ({ commit }, payload) {
+            commit('clearError');
+            commit('setLoading', true);
+            try {
+                const addUser = [
+                    {
+                        id: sessionStorage.id,
+                        user: `${sessionStorage.name} ${sessionStorage.surname}`
+                    }
+                ];
+                await firebase.database().ref(`globalDiary/${payload.joinDiary.idDiary}/globalDiary/${payload.joinDiary.lvl}/${payload.joinDiary.grp}`)
+                    .child('addUser')
+                    .update(addUser);
                 commit('setLoading', false)
             } catch (error) {
                 commit('setError', error.message);

@@ -1,18 +1,16 @@
 <template>
-    <v-form>
-        <v-row>
-            <v-col cols="12">
-                <v-select
-                        :disabled="edit"
-                        v-model="years"
-                        :items="selectYears"
-                        label="Выбрать начало учебного года"
-                ></v-select>
-                <v-btn :disabled="edit" @click="createDiary" color="secondary">Create Diary</v-btn>
-                <v-btn @click="edit = !edit" color="error" class="ml-2">Edit</v-btn>
-            </v-col>
-        </v-row>
-    </v-form>
+    <v-row>
+        <v-col cols="12">
+            <v-select
+                    :disabled="edit"
+                    v-model="years"
+                    :items="selectYears"
+                    label="Выбрать начало учебного года"
+            ></v-select>
+            <v-btn :disabled="edit" @click="createDiary" color="secondary">Create Diary</v-btn>
+            <v-btn @click="edit = !edit" color="error" class="ml-2">Edit</v-btn>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
