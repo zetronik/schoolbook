@@ -1,7 +1,12 @@
-before_deploy: "echo 'ready?'"
-deploy:
-  provider: firebase
-  token:
-    secure: $FIREBASE_TOKEN
-  project: "schoolbook-dpua"
-  message: "Deploying!!!"
+language: node_js
+  node_js:
+    - "node"
+  cache: npm
+  script: npm run build
+  deploy:
+    provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    local_dir: dist
+    on:
+      branch: master
