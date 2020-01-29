@@ -15,6 +15,7 @@ export default {
     },
     mutations: {
         setSettings (state, payload) {
+            console.log(payload)
             state.level = payload.level;
             sessionStorage.level = payload.level;
             state.group = payload.group;
@@ -28,6 +29,13 @@ export default {
             state.select = payload.school;
             sessionStorage.select = payload.school;
             state.lessonWeek = payload.lessons;
+            localStorage.admin = payload.admin;
+            localStorage.student = payload.student;
+            if (payload.admin) {
+                localStorage.schoolId = payload.adminDiary.idDiary;
+            } else if (payload.student) {
+                localStorage.schoolId = payload.joinDiary.idDiary;
+            }
         },
         setItems (state, payload) {
             state.items = payload

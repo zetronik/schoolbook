@@ -79,6 +79,8 @@
                 this.$store.state.settings.group = this.groupSelect;
                 sessionStorage.group = this.groupSelect;
                 const setUser = {
+                    admin: false,
+                    student: false,
                     level: this.levelSelect,
                     group: this.groupSelect,
                     school: this.select.id,

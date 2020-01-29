@@ -27,7 +27,7 @@
                             class="mx-auto"
                             tile
                     >
-                        <v-subheader>{{schoolId}}</v-subheader>
+                        <v-subheader>{{isAdmin}}</v-subheader>
                         <v-list-item-group>
                             <v-list-item>
                                 <v-list-item-icon>
@@ -184,6 +184,15 @@
                 this.bruteForce()
             }
         },
+        computed: {
+            isAdmin () {
+                if (localStorage.schoolId === this.schoolId && JSON.parse(localStorage.admin)) {
+                    return 'You is ADMIN this school'
+                } else {
+                    return 'You is not ADMIN this school'
+                }
+            }
+        },
         methods: {
             //загрузка наименования школ
             async setSchool () {
@@ -214,9 +223,13 @@
                             //idDiary: this.schoolId,
                             lvl: this.levelSelect,
                             grp: this.groupSelect
-                        }
+                        },
+                        admin: true,
+                        student: false
                     }
                 ];
+                localStorage.admin = true;
+                localStorage.student = false;
                 await this.$store.dispatch('uploadSchool', school);
                 this.global();
                 this.bruteForce()
@@ -262,8 +275,13 @@
                         idDiary: this.schoolId,
                         lvl: this.levelSelect,
                         grp: this.groupSelect
-                    }
+                    },
+                    admin: true,
+                    student: false
                 };
+                localStorage.admin = true;
+                localStorage.student = false;
+                localStorage.schoolId = this.schoolId;
                 await this.$store.dispatch('saveSetting', setUser);
                 await this.$store.dispatch('newDiary', newD);
             },
@@ -280,10 +298,16 @@
                         lvl: val[0],
                         grp: val[1],
                         access: true
-                    }
+                    },
+                    admin: false,
+                    student: true
                 };
+                localStorage.admin = false;
+                localStorage.student = true;
+                localStorage.schoolId = this.schoolId;
                 await this.$store.dispatch('saveSetting', setUser);
                 await this.$store.dispatch('addUserForDiary', setUser);
+                await this.$router.push('/global')
             }
         },
         created () {

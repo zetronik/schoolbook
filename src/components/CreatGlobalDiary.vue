@@ -59,10 +59,11 @@
                     september += 604800000;
                 }
                 const create = [
-                    {year: this.years, lessons: this.base},
+                    {lessons: this.base},
                     {[this.years]: this.book}
                 ];
-                await this.$store.dispatch('createDiary', create);
+                console.log(create)
+                await this.$store.dispatch('createGlobal', create);
                 this.$store.state.settings.year = this.years;
                 sessionStorage.years = this.years;
                 this.writeIn();

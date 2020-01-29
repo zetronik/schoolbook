@@ -5,27 +5,28 @@
                 <v-btn to="/global/admin"><v-icon>mdi-arrow-right-circle</v-icon>create or connect to the global diary</v-btn>
             </v-col>
         </v-row>
-            <create-diary :writeIn="writeIn"></create-diary>
+            <creat-global-diary v-if="boolComponent" :writeIn="writeIn"></creat-global-diary>
         <v-row class="d-flex justify-space-around">
             <v-col cols="12" md="12">
                 <h3 class="text--secondary text-center">Расписание уроков</h3>
-                <v-btn :disabled="btnSave" :loading="loading" @click="saveDiary" color="secondary">Save</v-btn>
+                <v-btn v-if="boolComponent" :disabled="btnSave" :loading="loading" @click="saveDiary" color="secondary">Save</v-btn>
                 <v-btn :loading="loading" @click="writeIn" color="accent" class="ml-2">Write in</v-btn>
             </v-col>
             <v-col cols="12" md="4" v-for="(day, dayWeek) in diary">
                 <p class="text--primary text-center display-1">{{day.dayWeeks}}</p>
                 <v-text-field
                         dense
+                        :disabled="!boolComponent"
                         v-for="(less, index) in day.dayLesson"
                         :v-model="day.dayLesson[index]"
                         :key="index"
                         :value="less.lesson"
                         @change="diarySave(dayWeek, $event, index)"
                 ></v-text-field>
-                <v-btn @click="minusLesson(dayWeek)" class="mx-1 float-left" fab dark small color="primary">
+                <v-btn v-if="boolComponent" @click="minusLesson(dayWeek)" class="mx-1 float-left" fab dark small color="primary">
                     <v-icon dark>mdi-minus</v-icon>
                 </v-btn>
-                <v-btn @click="plusLesson(dayWeek)" class="mx-1 float-right" fab dark small color="primary">
+                <v-btn v-if="boolComponent" @click="plusLesson(dayWeek)" class="mx-1 float-right" fab dark small color="primary">
                     <v-icon dark>mdi-plus</v-icon>
                 </v-btn>
             </v-col>
@@ -34,13 +35,14 @@
 </template>
 
 <script>
-    import CreateDiary from "../components/CreateDiary";
+    import CreatGlobalDiary from "../components/CreatGlobalDiary";
 
     export default {
-        components: {CreateDiary},
+        components: {CreatGlobalDiary},
         data: () => ({
             btnSave: false,
             diary: null,
+            boolComponent: false
         }),
         computed: {
             loading () {
@@ -49,8 +51,8 @@
         },
         methods: {
             async writeIn () {
-                //await this.$store.dispatch('writeLessons');
-                this.diary = this.$store.state.diary.lessons;
+                await this.$store.dispatch('writeAdminLessons');
+                this.diary = this.$store.state.admin.lessons;
             },
             async saveDiary () {
                 const date = new Date();
@@ -63,8 +65,8 @@
                     hour = 1
                 }
                 const start = new Date(year, month, startDay.getDate(), hour,0,0,0).valueOf();
-                this.$store.state.settings.lessonWeek = this.diary;
-                //await this.$store.dispatch('saveDiary', this.diary);
+                this.$store.state.admin.lessonWeek = this.diary;
+                await this.$store.dispatch('saveGlobalDiary', this.diary);
             },
             diarySave (dayWeek, event, diary) {
                 this.diary[dayWeek].dayLesson[diary].lesson = event;
@@ -89,9 +91,12 @@
                 this.writeIn();
                 this.btnSave = true
             }
+            this.boolComponent = JSON.parse(localStorage.admin);
+            console.log(this.boolComponent)
         },
         beforeDestroy: function () {
             this.saveDiary();
+            this.diary = null
         }
     }
 </script>
