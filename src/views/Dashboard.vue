@@ -1,5 +1,9 @@
 <template>
     <v-row class="ma-0">
+        <v-col cols="12" class="d-flex justify-space-between align-center ma-0">
+            <v-btn @click="lessWeek" min-width="150px" width="50%">My Diary</v-btn>
+            <v-btn @click="globWeek" min-width="150px" width="50%">Global Diary</v-btn>
+        </v-col>
         <v-col class="d-flex justify-space-between align-center ma-0">
             <v-btn class="mx-2" fab color="info" @click="pastWeeks">
                 <v-icon class="display-2" dark>mdi-arrow-left-drop-circle-outline</v-icon>
@@ -9,8 +13,11 @@
                 <v-icon class="display-2" dark>mdi-arrow-right-drop-circle-outline</v-icon>
             </v-btn>
         </v-col>
-        <v-col sm="12" lg="12">
+        <v-col v-if="my" sm="12" lg="12">
             <lesson-week :diaryWeek="diaryWeek" :start="start"></lesson-week>
+        </v-col>
+        <v-col v-if="global" sm="12" lg="12">
+            <global-week :diaryWeek="diaryWeek" :start="start"></global-week>
         </v-col>
     </v-row>
 </template>
@@ -18,6 +25,7 @@
 <script>
 
     import Diary from "../components/Diary";
+    import GlobalDiary from "../components/GlobalDiary";
 
     const date = new Date();
     const year = new Date().getFullYear();
@@ -34,9 +42,19 @@
             date: null,
             weeks: null,
             data: '',
-            diaryWeek: []
+            diaryWeek: [],
+            my: true,
+            global: false
         }),
         methods: {
+            lessWeek () {
+                this.my = true;
+                this.global = false;
+            },
+            globWeek () {
+                this.my = false;
+                this.global = true;
+            },
             async download () {
                 await this.$store.dispatch('pastWeeks', this.start);
                 this.diaryWeek = this.$store.state.diary.lessonWeek;
@@ -86,7 +104,8 @@
             }
         },
         components: {
-            lessonWeek: Diary
+            lessonWeek: Diary,
+            globalWeek: GlobalDiary
         },
         created () {
             const date = Date.now();

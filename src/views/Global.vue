@@ -92,7 +92,6 @@
                 this.btnSave = true
             }
             this.boolComponent = JSON.parse(localStorage.admin);
-            console.log(this.boolComponent)
         },
         beforeDestroy: function () {
             this.saveDiary();

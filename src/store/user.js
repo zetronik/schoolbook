@@ -43,7 +43,7 @@ export default {
                             commit('setSettings', setting)
                         }
                     });
-                sessionStorage.id = user.user.uid;
+                localStorage.id = user.user.uid;
                 commit('setUser', new User(user.user.uid));
                 commit('setLoading', false)
             } catch (error) {
@@ -65,7 +65,7 @@ export default {
                                     commit('setSettings', setting)
                                 }
                             });
-                        sessionStorage.id = user.uid;
+                        localStorage.id = user.uid;
                         commit('setUser', new User(user.uid));
                     } else {
                         commit('setUser', null)

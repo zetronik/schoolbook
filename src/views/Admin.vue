@@ -200,7 +200,7 @@
                 await this.$store.dispatch('schoolItem');
                 this.items = this.$store.state.settings.items;
                 setTimeout(() => {
-                    this.select = this.$store.state.settings.items.find(i => i.id === sessionStorage.select);
+                    this.select = this.$store.state.settings.items.find(i => i.id === localStorage.select);
                     this.loadItem = false;
                 }, 2000);
             },
@@ -210,7 +210,7 @@
                     globalDiary: {
                             [this.levelSelect]: {
                                 [this.groupSelect]: {
-                                    admin: `${sessionStorage.name} ${sessionStorage.surname}`,
+                                    admin: `${localStorage.name} ${localStorage.surname}`,
                                     diary: ''
                                 }
                             }
@@ -231,8 +231,7 @@
                 localStorage.admin = true;
                 localStorage.student = false;
                 await this.$store.dispatch('uploadSchool', school);
-                this.global();
-                this.bruteForce()
+                await this.$router.push('/global')
             },
             //загрузка скиска школ с глобальными дневниками
             async global () {
@@ -265,7 +264,7 @@
                     id: this.schoolId,
                     cl: {[this.levelSelect]: {
                         [this.groupSelect]: {
-                            admin: `${sessionStorage.name} ${sessionStorage.surname}`,
+                            admin: `${localStorage.name} ${localStorage.surname}`,
                             diary: ''
                         }
                         }}

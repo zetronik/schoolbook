@@ -1,4 +1,5 @@
-import * as firebase from 'firebase'
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 
 export default {
     state: {
@@ -15,19 +16,18 @@ export default {
     },
     mutations: {
         setSettings (state, payload) {
-            console.log(payload)
             state.level = payload.level;
-            sessionStorage.level = payload.level;
+            localStorage.level = payload.level;
             state.group = payload.group;
-            sessionStorage.group = payload.group;
+            localStorage.group = payload.group;
             state.years = payload.year;
-            sessionStorage.years = payload.year;
+            localStorage.years = payload.year;
             state.name = payload.name;
-            sessionStorage.name = payload.name;
+            localStorage.name = payload.name;
             state.surname = payload.surname;
-            sessionStorage.surname = payload.surname;
+            localStorage.surname = payload.surname;
             state.select = payload.school;
-            sessionStorage.select = payload.school;
+            localStorage.select = payload.school;
             state.lessonWeek = payload.lessons;
             localStorage.admin = payload.admin;
             localStorage.student = payload.student;
@@ -46,7 +46,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`${sessionStorage.id}/settings`).update(payload);
+                await firebase.database().ref(`${localStorage.id}/settings`).update(payload);
                 commit('setLoading', false)
             } catch (error) {
                 commit('setError', error.message);
@@ -58,8 +58,8 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`${sessionStorage.id}`).child(`/diary`).set(payload[1]);
-                await firebase.database().ref(`${sessionStorage.id}/settings`).update(payload[0]);
+                await firebase.database().ref(`${localStorage.id}`).child(`/diary`).set(payload[1]);
+                await firebase.database().ref(`${localStorage.id}/settings`).update(payload[0]);
                 commit('setLoading', false)
             } catch (error) {
                 commit('setError', error.message);
@@ -71,7 +71,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`${sessionStorage.id}/settings/`)
+                await firebase.database().ref(`${localStorage.id}/settings/`)
                     .child(`lessons`)
                     .update(payload);
                 commit('setLoading', false)

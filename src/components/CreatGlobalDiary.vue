@@ -62,21 +62,20 @@
                     {lessons: this.base},
                     {[this.years]: this.book}
                 ];
-                console.log(create)
                 await this.$store.dispatch('createGlobal', create);
                 this.$store.state.settings.year = this.years;
-                sessionStorage.years = this.years;
+                localStorage.years = this.years;
                 this.writeIn();
                 this.edit = true
             }
         },
         created() {
-            if (sessionStorage.years === undefined) {
+            if (localStorage.years === undefined) {
                 this.years = +new Date().getFullYear();
-            } else if (sessionStorage.years === 'undefined') {
+            } else if (localStorage.years === 'undefined') {
                 this.years = +new Date().getFullYear();
             } else {
-                this.years = +sessionStorage.years;
+                this.years = +localStorage.years;
             }
         }
     }

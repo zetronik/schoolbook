@@ -1,4 +1,5 @@
-import * as firebase from 'firebase'
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 
 export default {
     state: {
@@ -19,7 +20,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`${sessionStorage.id}/diary/${sessionStorage.years}/${this.state.diary.weeks}`).update(payload);
+                await firebase.database().ref(`${localStorage.id}/diary/${localStorage.years}/${this.state.diary.weeks}`).update(payload);
                 commit('setLoading', false)
             } catch (error) {
                 commit('setError', error.message);
@@ -31,7 +32,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`${sessionStorage.id}/diary/${sessionStorage.years}/${payload}`)
+                await firebase.database().ref(`${localStorage.id}/diary/${localStorage.years}/${payload}`)
                     .once('value')
                     .then(function(snapshot) {
                         if (snapshot.val() && snapshot.val()) {
@@ -51,7 +52,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`${sessionStorage.id}/settings/lessons`)
+                await firebase.database().ref(`${localStorage.id}/settings/lessons`)
                     .once('value')
                     .then(function(snapshot) {
                         if (snapshot.val() && snapshot.val()) {

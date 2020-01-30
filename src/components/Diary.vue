@@ -1,5 +1,8 @@
 <template>
     <v-row>
+        <v-col cols="12">
+            <h4 class="text-center">My Diary</h4>
+        </v-col>
         <v-col v-if="loading">
             <v-progress-linear
                     indeterminate
