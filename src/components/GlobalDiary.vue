@@ -20,7 +20,7 @@
                         v-for="(item, i) in globalWeek"
                         :key="i"
                 >
-                    <v-expansion-panel-header>{{ item.globalWeek }}</v-expansion-panel-header>
+                    <v-expansion-panel-header>{{ item.dayWeeks }}</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-simple-table>
                             <template v-slot:default>
@@ -123,30 +123,30 @@
             },
             saveDialog () {
                 this.dialog = false;
-                this.$parent.diaryWeek[this.day].dayLesson[this.index].homework = this.work;
-                this.$parent.diaryWeek[this.day].dayLesson[this.index].lesson = this.less;
+                this.$parent.globalWeek[this.day].dayLesson[this.index].homework = this.work;
+                this.$parent.globalWeek[this.day].dayLesson[this.index].lesson = this.less;
                 this.syncDiary()
             },
             async download () {
                 if (localStorage.schoolId !== undefined) {
                     await this.$store.dispatch('pastGlobalWeeks', this.start);
-                    this.$parent.diaryWeek = this.$store.state.global.lessonWeek;
+                    this.$parent.globalWeek = this.$store.state.global.lessonWeek;
                 }
             },
             async writeIn () {
                 if (localStorage.schoolId !== undefined) {
                     if (JSON.parse(localStorage.admin)) {
                         await this.$store.dispatch('writeGlobalLessons');
-                        this.$parent.diaryWeek = this.$store.state.global.lessons;
+                        this.$parent.globalWeek = this.$store.state.global.lessons;
                         this.syncDiary()
                     }
                 }
             },
             async syncDiary () {
                 if (localStorage.schoolId !== undefined) {
-                    this.$store.state.global.lessonWeek = this.diaryWeek;
+                    this.$store.state.global.lessonWeek = this.globalWeek;
                     this.$store.state.global.weeks = this.start;
-                    await this.$store.dispatch('syncGlobalDiary', this.diaryWeek)
+                    await this.$store.dispatch('syncGlobalDiary', this.globalWeek)
                 }
             }
         },

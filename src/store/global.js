@@ -8,10 +8,10 @@ export default {
         lessons: []
     },
     mutations: {
-        setLessonWeek (state, payload) {
+        setGlobalLessonWeek (state, payload) {
             state.lessonWeek = payload;
         },
-        setLessons (state, payload) {
+        setGlobalLessons (state, payload) {
             state.lessons = payload;
         }
     },
@@ -20,7 +20,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${sessionStorage.level}/${localStorage.group}/diary/${localStorage.years}/${this.state.diary.weeks}`).update(payload);
+                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${localStorage.lvl}/${localStorage.grp}/diary/${localStorage.years}/${this.state.diary.weeks}`).update(payload);
                 commit('setLoading', false)
             } catch (error) {
                 commit('setError', error.message);
@@ -32,12 +32,12 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${sessionStorage.level}/${localStorage.group}/diary/${localStorage.years}/${payload}`)
+                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${localStorage.lvl}/${localStorage.grp}/diary/${localStorage.years}/${payload}`)
                     .once('value')
                     .then(function(snapshot) {
                         if (snapshot.val() && snapshot.val()) {
                             const lessonWeek = snapshot.val();
-                            commit('setLessonWeek', lessonWeek)
+                            commit('setGlobalLessonWeek', lessonWeek)
                         }
                     });
 
@@ -52,12 +52,12 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${localStorage.level}/${localStorage.group}/lessons`)
+                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${localStorage.lvl}/${localStorage.grp}/lessons`)
                     .once('value')
                     .then(function(snapshot) {
                         if (snapshot.val() && snapshot.val()) {
                             const lessons = snapshot.val();
-                            commit('setLessons', lessons)
+                            commit('setGlobalLessons', lessons)
                         }
                     });
 

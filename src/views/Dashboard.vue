@@ -17,7 +17,7 @@
             <lesson-week :diaryWeek="diaryWeek" :start="start"></lesson-week>
         </v-col>
         <v-col v-if="global" sm="12" lg="12">
-            <global-week :diaryWeek="globalWeek" :start="start"></global-week>
+            <global-week :globalWeek="globalWeek" :start="start"></global-week>
         </v-col>
     </v-row>
 </template>
@@ -59,6 +59,8 @@
             async download () {
                 await this.$store.dispatch('pastWeeks', this.start);
                 this.diaryWeek = this.$store.state.diary.lessonWeek;
+                await this.$store.dispatch('pastGlobalWeeks', this.start);
+                this.globalWeek = this.$store.state.global.lessonWeek;
             },
             async pastWeeks () {
                 const date = this.date.valueOf() - 604800000;
@@ -81,9 +83,8 @@
                 this.$store.state.diary.weeks = this.start;
                 await this.$store.dispatch('pastWeeks', this.start);
                 this.diaryWeek = this.$store.state.diary.lessonWeek;
-                if (localStorage.schoolId !== undefined) {
-                    this.globalWeek = this.$store.state.global.lessonWeek;
-                }
+                await this.$store.dispatch('pastGlobalWeeks', this.start);
+                this.globalWeek = this.$store.state.global.lessonWeek;
             },
             async nextWeeks () {
                 const date = this.date.valueOf() + 604800000;
@@ -105,6 +106,8 @@
                 this.$store.state.diary.weeks = this.start;
                 await this.$store.dispatch('pastWeeks', this.start);
                 this.diaryWeek = this.$store.state.diary.lessonWeek;
+                await this.$store.dispatch('pastGlobalWeeks', this.start);
+                this.globalWeek = this.$store.state.global.lessonWeek;
             }
         },
         components: {

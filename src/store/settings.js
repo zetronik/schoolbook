@@ -33,8 +33,12 @@ export default {
             localStorage.student = payload.student;
             if (payload.admin) {
                 localStorage.schoolId = payload.adminDiary.idDiary;
+                localStorage.grp = payload.adminDiary.grp;
+                localStorage.lvl = payload.adminDiary.lvl;
             } else if (payload.student) {
                 localStorage.schoolId = payload.joinDiary.idDiary;
+                localStorage.grp = payload.joinDiary.grp;
+                localStorage.lvl = payload.joinDiary.lvl;
             }
         },
         setItems (state, payload) {
