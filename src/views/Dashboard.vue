@@ -17,7 +17,7 @@
             <lesson-week :diaryWeek="diaryWeek" :start="start"></lesson-week>
         </v-col>
         <v-col v-if="global" sm="12" lg="12">
-            <global-week :diaryWeek="diaryWeek" :start="start"></global-week>
+            <global-week :diaryWeek="globalWeek" :start="start"></global-week>
         </v-col>
     </v-row>
 </template>
@@ -43,6 +43,7 @@
             weeks: null,
             data: '',
             diaryWeek: [],
+            globalWeek: [],
             my: true,
             global: false
         }),
@@ -80,6 +81,9 @@
                 this.$store.state.diary.weeks = this.start;
                 await this.$store.dispatch('pastWeeks', this.start);
                 this.diaryWeek = this.$store.state.diary.lessonWeek;
+                if (localStorage.schoolId !== undefined) {
+                    this.globalWeek = this.$store.state.global.lessonWeek;
+                }
             },
             async nextWeeks () {
                 const date = this.date.valueOf() + 604800000;
