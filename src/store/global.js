@@ -18,19 +18,19 @@ export default {
     actions: {
         async syncGlobalDiary ({ commit }, payload) {
             commit('clearError');
-            commit('setLoading', true);
+            commit('setUpload', true);
             try {
                 await firebase.database().ref(`globalDiary/${this.state.settings.schoolId}/globalDiary/${this.state.settings.lvl}/${this.state.settings.grp}/diary/${this.state.settings.years}/${this.state.global.weeks}`).update(payload);
-                commit('setLoading', false)
+                commit('setUpload', false)
             } catch (error) {
                 commit('setError', error.message);
-                commit('setLoading', false);
+                commit('setUpload', false);
                 throw error
             }
         },
         async pastGlobalWeeks ({ commit }, payload) {
             commit('clearError');
-            commit('setLoading', true);
+            commit('setDownload', true);
             try {
                 await firebase.database().ref(`globalDiary/${this.state.settings.schoolId}/globalDiary/${this.state.settings.lvl}/${this.state.settings.grp}/diary/${this.state.settings.years}/${payload}`)
                     .once('value')
@@ -41,10 +41,10 @@ export default {
                         }
                     });
 
-                commit('setLoading', false)
+                commit('setDownload', false)
             } catch (error) {
                 commit('setError', error.message);
-                commit('setLoading', false);
+                commit('setDownload', false);
                 throw error
             }
         },

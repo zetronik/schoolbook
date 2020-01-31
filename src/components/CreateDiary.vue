@@ -70,12 +70,10 @@
             }
         },
         created() {
-            if (localStorage.years === undefined) {
-                this.years = +new Date().getFullYear();
-            } else if (localStorage.years === 'undefined') {
+            if (this.$store.state.settings.years === null) {
                 this.years = +new Date().getFullYear();
             } else {
-                this.years = +localStorage.years;
+                this.years = +this.$store.state.settings.years;
             }
         }
     }

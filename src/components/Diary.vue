@@ -47,8 +47,8 @@
             </v-expansion-panels>
         </v-col>
         <v-col cols="12" md="12" class="d-flex justify-space-between align-center wrap">
-            <v-btn @click="syncDiary" color="secondary">Save</v-btn>
-            <v-btn :loading="loading" @click="download" color="warning">Download</v-btn>
+            <v-btn :loading="upload" @click="syncDiary" color="secondary">Save</v-btn>
+            <v-btn :loading="download" @click="downloadDiary" color="warning">Download</v-btn>
             <v-btn @click="writeIn" color="info">Write in</v-btn>
         </v-col>
         <v-col
@@ -111,6 +111,12 @@
         computed: {
             loading () {
                 return this.$store.getters.loading
+            },
+            download () {
+                return this.$store.getters.download
+            },
+            upload () {
+                return this.$store.getters.upload
             }
         },
         methods: {
@@ -127,7 +133,7 @@
                 this.$parent.diaryWeek[this.day].dayLesson[this.index].lesson = this.less;
                 this.syncDiary()
             },
-            async download () {
+            async downloadDiary () {
                 await this.$store.dispatch('pastWeeks', this.start);
                 this.$parent.diaryWeek = this.$store.state.diary.lessonWeek;
             },

@@ -1,5 +1,7 @@
 export default {
   state: {
+    download: false,
+    upload: false,
     loading: false,
     error: null
   },
@@ -12,6 +14,12 @@ export default {
     },
     clearError (state) {
       state.error = null
+    },
+    setDownload (state, payload) {
+      state.download = payload
+    },
+    setUpload (state, payload) {
+      state.upload = payload
     }
   },
   actions: {
@@ -23,6 +31,12 @@ export default {
     },
     clearError ({commit}) {
       commit('clearError')
+    },
+    setDownload ({commit}, payload) {
+      commit('setDownload', payload)
+    },
+    setUpload ({commit}, payload) {
+      commit('setUpload', payload)
     }
   },
   getters: {
@@ -31,6 +45,12 @@ export default {
     },
     error (state) {
       return state.error
+    },
+    download (state) {
+      return state.download
+    },
+    upload (state) {
+      return state.upload
     }
   }
 }

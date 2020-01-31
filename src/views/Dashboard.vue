@@ -1,6 +1,6 @@
 <template>
     <v-row class="ma-0">
-        <v-col cols="12" class="d-flex justify-space-between align-center ma-0">
+       <v-col cols="12" class="d-flex justify-space-between align-center ma-0">
             <v-btn @click="lessWeek" min-width="150px" width="50%">My Diary</v-btn>
             <v-btn @click="globWeek" min-width="150px" width="50%">Global Diary</v-btn>
         </v-col>
@@ -47,6 +47,11 @@
             my: true,
             global: false
         }),
+        computed: {
+            loading () {
+                return this.$store.getters.loading
+            },
+        },
         methods: {
             lessWeek () {
                 this.my = true;
@@ -103,8 +108,9 @@
                 const startDay = new Date((date - (86400000*(week - 1)))).getDate();
                 const endDay = new Date(date + (86400000*(7 - week))).getDate();
                 this.start = this.start + 86400000*7;
-                this.weeks = `${startDay}.${startMonth}.${startYear}-${endDay}.${endMonth}.${endYear}`;
+                this.dashWeeks = `${startDay}.${startMonth}.${startYear}-${endDay}.${endMonth}.${endYear}`;
                 this.$store.state.diary.weeks = this.start;
+                this.$store.state.global.weeks = this.start;
                 await this.$store.dispatch('pastWeeks', this.start);
                 this.diaryWeek = this.$store.state.diary.lessonWeek;
                 await this.$store.dispatch('pastGlobalWeeks', this.start);
@@ -115,7 +121,8 @@
             lessonWeek: Diary,
             globalWeek: GlobalDiary
         },
-        created () {
+        async created () {
+            await this.$store.dispatch('setLoading', true);
             const date = Date.now();
             this.date = new Date(date);
             const week = this.date.getDay();
@@ -133,6 +140,7 @@
             this.dashWeeks = `${startDay}.${startMonth}.${startYear}-${endDay}.${endMonth}.${endYear}`;
             this.$store.state.diary.weeks = start;
             this.$store.state.global.weeks = start;
+            await this.$store.dispatch('setLoading', false);
         },
         beforeDestroy() {
             this.diaryWeek = [];
