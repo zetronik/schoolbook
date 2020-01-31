@@ -133,6 +133,10 @@
             this.dashWeeks = `${startDay}.${startMonth}.${startYear}-${endDay}.${endMonth}.${endYear}`;
             this.$store.state.diary.weeks = start;
             this.$store.state.global.weeks = start;
+        },
+        beforeDestroy() {
+            this.diaryWeek = [];
+            this.globalWeek = [];
         }
     }
 </script>

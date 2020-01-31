@@ -151,7 +151,6 @@
             }
         },
         created () {
-          console.log(this.start)
         },
         beforeDestroy() {
         }

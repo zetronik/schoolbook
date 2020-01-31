@@ -3,7 +3,7 @@
         <v-col cols="12">
             <h4 class="text-center">My Diary</h4>
         </v-col>
-        <v-col v-if="loading">
+        <v-col cols="12" v-if="loading">
             <v-progress-linear
                     indeterminate
                     color="green"
@@ -141,6 +141,9 @@
                 this.$store.state.diary.weeks = this.start;
                 await this.$store.dispatch('syncDiary', this.diaryWeek)
             }
+        },
+        created () {
+
         },
         beforeDestroy() {
         }
