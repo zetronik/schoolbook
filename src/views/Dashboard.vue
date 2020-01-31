@@ -8,7 +8,7 @@
             <v-btn class="mx-2" fab color="info" @click="pastWeeks">
                 <v-icon class="display-2" dark>mdi-arrow-left-drop-circle-outline</v-icon>
             </v-btn>
-            <p class="text-center title">{{weeks}}</p>
+            <p class="text-center title">{{dashWeeks}}</p>
             <v-btn class="mx-2" fab dark color="info" @click="nextWeeks">
                 <v-icon class="display-2" dark>mdi-arrow-right-drop-circle-outline</v-icon>
             </v-btn>
@@ -40,7 +40,7 @@
         data: () => ({
             start: start,
             date: null,
-            weeks: null,
+            dashWeeks: null,
             data: '',
             diaryWeek: [],
             globalWeek: [],
@@ -79,8 +79,9 @@
                 const endDay = new Date(date + (86400000*(7 - week))).getDate();
 
                 this.start = this.start - 86400000*7;
-                this.weeks = `${startDay}.${startMonth}.${startYear}-${endDay}.${endMonth}.${endYear}`;
+                this.dashWeeks = `${startDay}.${startMonth}.${startYear}-${endDay}.${endMonth}.${endYear}`;
                 this.$store.state.diary.weeks = this.start;
+                this.$store.state.global.weeks = this.start;
                 await this.$store.dispatch('pastWeeks', this.start);
                 this.diaryWeek = this.$store.state.diary.lessonWeek;
                 await this.$store.dispatch('pastGlobalWeeks', this.start);
@@ -129,8 +130,9 @@
 
             const startDay = new Date((date - (86400000*(week - 1)))).getDate();
             const endDay = new Date(date + (86400000*(7 - week))).getDate();
-            this.weeks = `${startDay}.${startMonth}.${startYear}-${endDay}.${endMonth}.${endYear}`;
-            this.$store.state.diary.weeks = this.weeks
+            this.dashWeeks = `${startDay}.${startMonth}.${startYear}-${endDay}.${endMonth}.${endYear}`;
+            this.$store.state.diary.weeks = start;
+            this.$store.state.global.weeks = start;
         }
     }
 </script>

@@ -186,7 +186,7 @@
         },
         computed: {
             isAdmin () {
-                if (localStorage.schoolId === this.schoolId && JSON.parse(localStorage.admin)) {
+                if (this.$store.state.settings.schoolId === this.schoolId && this.$store.state.settings.admin) {
                     return 'You is ADMIN this school'
                 } else {
                     return 'You is not ADMIN this school'
@@ -200,7 +200,7 @@
                 await this.$store.dispatch('schoolItem');
                 this.items = this.$store.state.settings.items;
                 setTimeout(() => {
-                    this.select = this.$store.state.settings.items.find(i => i.id === localStorage.select);
+                    this.select = this.$store.state.settings.items.find(i => i.id === this.$store.state.settings.select);
                     this.loadItem = false;
                 }, 2000);
             },
@@ -210,7 +210,7 @@
                     globalDiary: {
                             [this.levelSelect]: {
                                 [this.groupSelect]: {
-                                    admin: `${localStorage.name} ${localStorage.surname}`,
+                                    admin: `${this.$store.state.settings.name} ${this.$store.state.settings.surname}`,
                                     diary: ''
                                 }
                             }
@@ -228,8 +228,6 @@
                         student: false
                     }
                 ];
-                localStorage.admin = true;
-                localStorage.student = false;
                 await this.$store.dispatch('uploadSchool', school);
                 await this.$router.push('/global')
             },
@@ -264,7 +262,7 @@
                     id: this.schoolId,
                     cl: {[this.levelSelect]: {
                         [this.groupSelect]: {
-                            admin: `${localStorage.name} ${localStorage.surname}`,
+                            admin: `${this.$store.state.settings.name} ${this.$store.state.settings.surname}`,
                             diary: ''
                         }
                         }}
@@ -278,9 +276,6 @@
                     admin: true,
                     student: false
                 };
-                localStorage.admin = true;
-                localStorage.student = false;
-                localStorage.schoolId = this.schoolId;
                 await this.$store.dispatch('saveSetting', setUser);
                 await this.$store.dispatch('newDiary', newD);
             },
@@ -301,9 +296,6 @@
                     admin: false,
                     student: true
                 };
-                localStorage.admin = false;
-                localStorage.student = true;
-                localStorage.schoolId = this.schoolId;
                 await this.$store.dispatch('saveSetting', setUser);
                 await this.$store.dispatch('addUserForDiary', setUser);
                 await this.$router.push('/global')

@@ -20,7 +20,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${localStorage.lvl}/${localStorage.grp}/diary/${localStorage.years}/${this.state.diary.weeks}`).update(payload);
+                await firebase.database().ref(`globalDiary/${this.state.settings.schoolId}/globalDiary/${this.state.settings.lvl}/${this.state.settings.grp}/diary/${this.state.settings.years}/${this.state.global.weeks}`).update(payload);
                 commit('setLoading', false)
             } catch (error) {
                 commit('setError', error.message);
@@ -32,7 +32,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${localStorage.lvl}/${localStorage.grp}/diary/${localStorage.years}/${payload}`)
+                await firebase.database().ref(`globalDiary/${this.state.settings.schoolId}/globalDiary/${this.state.settings.lvl}/${this.state.settings.grp}/diary/${this.state.settings.years}/${payload}`)
                     .once('value')
                     .then(function(snapshot) {
                         if (snapshot.val() && snapshot.val()) {
@@ -52,7 +52,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${localStorage.lvl}/${localStorage.grp}/lessons`)
+                await firebase.database().ref(`globalDiary/${this.state.settings.schoolId}/globalDiary/${this.state.settings.lvl}/${this.state.settings.grp}/lessons`)
                     .once('value')
                     .then(function(snapshot) {
                         if (snapshot.val() && snapshot.val()) {

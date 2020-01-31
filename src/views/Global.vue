@@ -91,7 +91,7 @@
                 this.writeIn();
                 this.btnSave = true
             }
-            this.boolComponent = JSON.parse(localStorage.admin);
+            this.boolComponent = this.$store.state.settings.admin;
         },
         beforeDestroy: function () {
             this.saveDiary();

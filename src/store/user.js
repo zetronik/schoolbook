@@ -14,7 +14,6 @@ export default {
         setUser (state, payload) {
             state.user = payload;
         },
-
     },
     actions: {
         async registerUser ({commit}, {email, password}) {

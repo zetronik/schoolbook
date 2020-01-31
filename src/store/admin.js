@@ -25,8 +25,8 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${localStorage.level}/${localStorage.group}`).child(`/diary`).set(payload[1]);
-                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${localStorage.level}/${localStorage.group}`).update(payload[0]);
+                await firebase.database().ref(`globalDiary/${this.state.settings.schoolId}/globalDiary/${this.state.settings.level}/${this.state.settings.group}`).child(`/diary`).set(payload[1]);
+                await firebase.database().ref(`globalDiary/${this.state.settings.schoolId}/globalDiary/${this.state.settings.level}/${this.state.settings.group}`).update(payload[0]);
                 commit('setLoading', false)
             } catch (error) {
                 commit('setError', error.message);
@@ -38,7 +38,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${localStorage.level}/${localStorage.group}`)
+                await firebase.database().ref(`globalDiary/${this.state.settings.schoolId}/globalDiary/${this.state.settings.level}/${this.state.settings.group}`)
                     .child(`lessons`)
                     .update(payload);
                 commit('setLoading', false)
@@ -52,7 +52,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`globalDiary/${localStorage.schoolId}/globalDiary/${localStorage.level}/${localStorage.group}/lessons`)
+                await firebase.database().ref(`globalDiary/${this.state.settings.schoolId}/globalDiary/${this.state.settings.level}/${this.state.settings.group}/lessons`)
                     .once('value')
                     .then(function(snapshot) {
                         if (snapshot.val() && snapshot.val()) {
@@ -74,8 +74,7 @@ export default {
             try {
                 const schoolId = await firebase.database().ref(`globalDiary/`).push(payload[0]);
                 payload[1].adminDiary.idDiary = schoolId.path.pieces_[1];
-                localStorage.schoolId = schoolId.path.pieces_[1];
-                await firebase.database().ref(`${localStorage.id}/settings`).update(payload[1]);
+                await firebase.database().ref(`${this.state.user.user.id}/settings`).update(payload[1]);
                 commit('setSchoolId', schoolId.path.pieces_[1]);
                 commit('setLoading', false)
             } catch (error) {
@@ -121,8 +120,8 @@ export default {
             try {
                 const addUser = [
                     {
-                        id: localStorage.id,
-                        user: `${localStorage.name} ${localStorage.surname}`
+                        id: this.state.user.user.id,
+                        user: `${this.state.settings} ${this.state.settings}`
                     }
                 ];
                 await firebase.database().ref(`globalDiary/${payload.joinDiary.idDiary}/globalDiary/${payload.joinDiary.lvl}/${payload.joinDiary.grp}`)

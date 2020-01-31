@@ -63,19 +63,16 @@
                     {[this.years]: this.book}
                 ];
                 await this.$store.dispatch('createGlobal', create);
-                this.$store.state.settings.year = this.years;
-                localStorage.years = this.years;
+                this.$store.state.settings.years = this.years;
                 this.writeIn();
                 this.edit = true
             }
         },
         created() {
-            if (localStorage.years === undefined) {
-                this.years = +new Date().getFullYear();
-            } else if (localStorage.years === 'undefined') {
+            if (this.$store.state.settings.years === null) {
                 this.years = +new Date().getFullYear();
             } else {
-                this.years = +localStorage.years;
+                this.years = +this.$store.state.settings.years;
             }
         }
     }

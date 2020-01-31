@@ -128,14 +128,14 @@
                 this.syncDiary()
             },
             async download () {
-                if (localStorage.schoolId !== undefined) {
+                if (this.$store.state.settings.schoolId !== null) {
                     await this.$store.dispatch('pastGlobalWeeks', this.start);
                     this.$parent.globalWeek = this.$store.state.global.lessonWeek;
                 }
             },
             async writeIn () {
-                if (localStorage.schoolId !== undefined) {
-                    if (JSON.parse(localStorage.admin)) {
+                if (this.$store.state.settings.schoolId !== null) {
+                    if (this.$store.state.settings.admin) {
                         await this.$store.dispatch('writeGlobalLessons');
                         this.$parent.globalWeek = this.$store.state.global.lessons;
                         this.syncDiary()
@@ -143,18 +143,17 @@
                 }
             },
             async syncDiary () {
-                if (localStorage.schoolId !== undefined) {
+                if (this.$store.state.settings.schoolId !== null) {
                     this.$store.state.global.lessonWeek = this.globalWeek;
                     this.$store.state.global.weeks = this.start;
                     await this.$store.dispatch('syncGlobalDiary', this.globalWeek)
                 }
             }
         },
-        created() {
-            this.download()
+        created () {
+          console.log(this.start)
         },
         beforeDestroy() {
-            this.syncDiary()
         }
     }
 </script>

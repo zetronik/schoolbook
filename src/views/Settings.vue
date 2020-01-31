@@ -56,16 +56,6 @@
                 this.diary = this.$store.state.diary.lessons;
             },
             async saveDiary () {
-                const date = new Date();
-                const year = new Date().getFullYear();
-                const month = new Date().getMonth();
-                const week = date.getDay();
-                const startDay = new Date((date - (86400000*(week - 1))));
-                let hour = 0;
-                if (new Date(year, 6,1,0,0,0,0).getTimezoneOffset() - date.getTimezoneOffset() === 60) {
-                    hour = 1
-                }
-                const start = new Date(year, month, startDay.getDate(), hour,0,0,0).valueOf();
                 this.$store.state.settings.lessonWeek = this.diary;
                 await this.$store.dispatch('saveDiary', this.diary);
             },

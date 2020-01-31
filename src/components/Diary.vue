@@ -142,11 +142,7 @@
                 await this.$store.dispatch('syncDiary', this.diaryWeek)
             }
         },
-        created() {
-            this.download()
-        },
         beforeDestroy() {
-            this.syncDiary()
         }
     }
 </script>

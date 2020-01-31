@@ -69,15 +69,10 @@
         methods: {
             async saveUser () {
                 this.$store.state.settings.select = this.select.id;
-                localStorage.select = this.select.id;
                 this.$store.state.settings.name = this.name;
-                localStorage.name = this.name;
                 this.$store.state.settings.surname = this.surname;
-                localStorage.surname = this.surname;
                 this.$store.state.settings.level = this.levelSelect;
-                localStorage.level = this.levelSelect;
                 this.$store.state.settings.group = this.groupSelect;
-                localStorage    .group = this.groupSelect;
                 const setUser = {
                     admin: false,
                     student: false,
@@ -93,14 +88,14 @@
         },
         async created() {
             await this.$store.dispatch('schoolItem');
-            if (localStorage.length !== 0) {
-                this.select = this.$store.state.settings.items.find(i => i.id === localStorage.select);
-                this.name = localStorage.name;
-                this.surname = localStorage.surname;
-                this.levelSelect = localStorage.level;
-                this.groupSelect = localStorage.group;
-            }
-            this.items = this.$store.state.settings.items;
+
+                this.select = this.$store.state.settings.items.find(i => i.id === this.$store.state.settings.select);
+                this.name = this.$store.state.settings.name;
+                this.surname = this.$store.state.settings.surname;
+                this.levelSelect = this.$store.state.settings.level;
+                this.groupSelect = this.$store.state.settings.group;
+
+                this.items = this.$store.state.settings.items;
         },
         beforeDestroy () {
             this.items = []

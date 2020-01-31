@@ -9,36 +9,39 @@ export default {
         select: null,
         name: '',
         surname: '',
-        theme: false,
         years: null,
-        weeks: null,
-        lessonWeek: []
+        lessonWeek: [],
+        schoolId: null,
+        grp: null,
+        lvl: null,
+        access: false
     },
     mutations: {
         setSettings (state, payload) {
             state.level = payload.level;
-            localStorage.level = payload.level;
             state.group = payload.group;
-            localStorage.group = payload.group;
             state.years = payload.year;
-            localStorage.years = payload.year;
             state.name = payload.name;
-            localStorage.name = payload.name;
             state.surname = payload.surname;
-            localStorage.surname = payload.surname;
             state.select = payload.school;
-            localStorage.select = payload.school;
             state.lessonWeek = payload.lessons;
-            localStorage.admin = payload.admin;
-            localStorage.student = payload.student;
+            state.select = payload.school;
+            state.surname = payload.surname;
+            state.name = payload.name;
+            state.years = payload.year;
+            state.group = payload.group;
+            state.level = payload.level;
+            state.admin = payload.admin;
+            state.student = payload.student;
             if (payload.admin) {
-                localStorage.schoolId = payload.adminDiary.idDiary;
-                localStorage.grp = payload.adminDiary.grp;
-                localStorage.lvl = payload.adminDiary.lvl;
+                state.schoolId = payload.adminDiary.idDiary;
+                state.grp = payload.adminDiary.grp;
+                state.lvl = payload.adminDiary.lvl;
             } else if (payload.student) {
-                localStorage.schoolId = payload.joinDiary.idDiary;
-                localStorage.grp = payload.joinDiary.grp;
-                localStorage.lvl = payload.joinDiary.lvl;
+                state.schoolId = payload.joinDiary.idDiary;
+                state.grp = payload.joinDiary.grp;
+                state.lvl = payload.joinDiary.lvl;
+                state.access = payload.joinDiary.access
             }
         },
         setItems (state, payload) {
@@ -50,7 +53,8 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`${localStorage.id}/settings`).update(payload);
+                console.log(this.state.user.user.id)
+                await firebase.database().ref(`${this.state.user.user.id}/settings`).update(payload);
                 commit('setLoading', false)
             } catch (error) {
                 commit('setError', error.message);
@@ -62,8 +66,8 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`${localStorage.id}`).child(`/diary`).set(payload[1]);
-                await firebase.database().ref(`${localStorage.id}/settings`).update(payload[0]);
+                await firebase.database().ref(`${this.state.user.user.id}`).child(`/diary`).set(payload[1]);
+                await firebase.database().ref(`${this.state.user.user.id}/settings`).update(payload[0]);
                 commit('setLoading', false)
             } catch (error) {
                 commit('setError', error.message);
@@ -75,7 +79,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                await firebase.database().ref(`${localStorage.id}/settings/`)
+                await firebase.database().ref(`${this.state.user.user.id}/settings/`)
                     .child(`lessons`)
                     .update(payload);
                 commit('setLoading', false)
@@ -85,7 +89,7 @@ export default {
                 throw error
             }
         },
-        async schoolItem ({ commit }, payload) {
+        async schoolItem ({ commit }) {
             commit('clearError');
             commit('setLoading', true);
             try {
