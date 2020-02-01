@@ -28,10 +28,10 @@
     import GlobalDiary from "../components/GlobalDiary";
 
     const date = new Date();
-    const year = new Date().getFullYear();
-    const month = new Date().getMonth();
     const week = date.getDay();
     const startDay = new Date((date - (86400000*(week - 1))));
+    const year = new Date(startDay.valueOf()).getFullYear();
+    const month = new Date(startDay.valueOf()).getMonth();
     let hour = 0;
     if (new Date(year, 6,1,0,0,0,0).getTimezoneOffset() - date.getTimezoneOffset() === 60) {hour = 1}
     const start = new Date(year, month, startDay.getDate(), hour,0,0,0).valueOf();
@@ -61,12 +61,6 @@
                 this.my = false;
                 this.global = true;
             },
-            async download () {
-                await this.$store.dispatch('pastWeeks', this.start);
-                this.diaryWeek = this.$store.state.diary.lessonWeek;
-                await this.$store.dispatch('pastGlobalWeeks', this.start);
-                this.globalWeek = this.$store.state.global.lessonWeek;
-            },
             async pastWeeks () {
                 const date = this.date.valueOf() - 604800000;
                 this.date = new Date(date);
@@ -88,8 +82,8 @@
                 this.$store.state.diary.weeks = this.start;
                 this.$store.state.global.weeks = this.start;
                 await this.$store.dispatch('pastWeeks', this.start);
-                this.diaryWeek = this.$store.state.diary.lessonWeek;
                 await this.$store.dispatch('pastGlobalWeeks', this.start);
+                this.diaryWeek = this.$store.state.diary.lessonWeek;
                 this.globalWeek = this.$store.state.global.lessonWeek;
             },
             async nextWeeks () {
@@ -112,8 +106,8 @@
                 this.$store.state.diary.weeks = this.start;
                 this.$store.state.global.weeks = this.start;
                 await this.$store.dispatch('pastWeeks', this.start);
-                this.diaryWeek = this.$store.state.diary.lessonWeek;
                 await this.$store.dispatch('pastGlobalWeeks', this.start);
+                this.diaryWeek = this.$store.state.diary.lessonWeek;
                 this.globalWeek = this.$store.state.global.lessonWeek;
             }
         },
@@ -122,7 +116,6 @@
             globalWeek: GlobalDiary
         },
         async created () {
-            await this.$store.dispatch('setLoading', true);
             const date = Date.now();
             this.date = new Date(date);
             const week = this.date.getDay();
@@ -138,9 +131,8 @@
             const startDay = new Date((date - (86400000*(week - 1)))).getDate();
             const endDay = new Date(date + (86400000*(7 - week))).getDate();
             this.dashWeeks = `${startDay}.${startMonth}.${startYear}-${endDay}.${endMonth}.${endYear}`;
-            this.$store.state.diary.weeks = start;
-            this.$store.state.global.weeks = start;
-            await this.$store.dispatch('setLoading', false);
+            this.$store.state.diary.weeks = this.start;
+            this.$store.state.global.weeks = this.start;
         },
         beforeDestroy() {
             this.diaryWeek = [];
