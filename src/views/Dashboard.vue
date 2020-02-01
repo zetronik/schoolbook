@@ -2,7 +2,7 @@
     <v-row class="ma-0">
        <v-col cols="12" class="d-flex justify-space-between align-center ma-0">
             <v-btn @click="lessWeek" min-width="150px" width="50%">My Diary</v-btn>
-            <v-btn @click="globWeek" min-width="150px" width="50%">Global Diary</v-btn>
+            <v-btn :disabled="!access" @click="globWeek" min-width="150px" width="50%">Global Diary</v-btn>
         </v-col>
         <v-col class="d-flex justify-space-between align-center ma-0">
             <v-btn class="mx-2" fab color="info" @click="pastWeeks">
@@ -45,7 +45,8 @@
             diaryWeek: [],
             globalWeek: [],
             my: true,
-            global: false
+            global: false,
+            access: false
         }),
         computed: {
             loading () {
@@ -116,6 +117,7 @@
             globalWeek: GlobalDiary
         },
         async created () {
+            this.access = this.$store.state.settings.access;
             const date = Date.now();
             this.date = new Date(date);
             const week = this.date.getDay();

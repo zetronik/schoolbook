@@ -6,6 +6,7 @@ import settings from './settings'
 import diary from './diary'
 import admin from "./admin";
 import global from "./global";
+import accessStudent from "./accessStudent";
 
 Vue.use(Vuex);
 
@@ -17,6 +18,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    user, shared, settings, diary, admin, global
+    user, shared, settings, diary, admin, global, accessStudent
   }
 })

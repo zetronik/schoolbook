@@ -118,15 +118,14 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                const addUser = [
-                    {
-                        id: this.state.user.user.id,
-                        user: `${this.state.settings} ${this.state.settings}`
-                    }
-                ];
+                const addUser = {
+                    id: this.state.user.user.id,
+                    user: `${this.state.settings.name} ${this.state.settings.surname}`,
+                    access: false
+                };
                 await firebase.database().ref(`globalDiary/${payload.joinDiary.idDiary}/globalDiary/${payload.joinDiary.lvl}/${payload.joinDiary.grp}`)
                     .child('addUser')
-                    .update(addUser);
+                    .push(addUser);
                 commit('setLoading', false)
             } catch (error) {
                 commit('setError', error.message);

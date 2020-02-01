@@ -11,6 +11,8 @@ export default {
         surname: '',
         years: null,
         lessonWeek: [],
+        admin: false,
+        student: false,
         schoolId: null,
         grp: null,
         lvl: null,
@@ -37,6 +39,7 @@ export default {
                 state.schoolId = payload.adminDiary.idDiary;
                 state.grp = payload.adminDiary.grp;
                 state.lvl = payload.adminDiary.lvl;
+                state.access = true
             } else if (payload.student) {
                 state.schoolId = payload.joinDiary.idDiary;
                 state.grp = payload.joinDiary.grp;
@@ -53,7 +56,6 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                console.log(this.state.user.user.id)
                 await firebase.database().ref(`${this.state.user.user.id}/settings`).update(payload);
                 commit('setLoading', false)
             } catch (error) {

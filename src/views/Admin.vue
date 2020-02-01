@@ -27,7 +27,6 @@
                             class="mx-auto"
                             tile
                     >
-                        <v-subheader>{{isAdmin}}</v-subheader>
                         <v-list-item-group>
                             <v-list-item>
                                 <v-list-item-icon>
@@ -65,12 +64,12 @@
                                 </v-list-item-icon>
                                 <v-list-item-content>
                                     <v-list-item-title>
-                                        <v-btn @click="setDiary(i.cl)" color="info">{{i.cl}}</v-btn>
+                                        <v-btn :disabled="i.user === 'admin' || i.user === 'student'" @click="setDiary(i.cl)" color="info">{{i.cl}} {{i.user}}</v-btn>
                                         <v-subheader class="float-left">{{i.admin}}</v-subheader>
                                     </v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>
-                            <v-list-item>
+                            <v-list-item v-if="!addClass">
                                 <v-list-item-icon>
                                     <v-icon>mdi-domain-plus</v-icon>
                                 </v-list-item-icon>
@@ -116,7 +115,7 @@
                                     <v-icon>mdi-city</v-icon>
                                 </v-list-item-action>
                                 <v-list-item-content>
-                                    <v-text-field label="Наседенный пункт" v-model="locality"></v-text-field>
+                                    <v-text-field label="Населенный пункт" v-model="locality"></v-text-field>
                                 </v-list-item-content>
                             </v-list-item>
                             <v-list-item>
@@ -152,11 +151,16 @@
                 </v-card>
             </v-col>
         </v-row>
+        <v-row v-if="addClass">
+            <student-access></student-access>
+        </v-row>
     </v-container>
 </template>
 
 <script>
+    import StudentAccess from "../components/StudentAccess";
     export default {
+        components: {studentAccess: StudentAccess},
         data () {
             return {
                 getBtn: true,
@@ -176,21 +180,16 @@
                 level: ['1','2','3','4','5','6','7','8','9','10','11','12'],
                 gGroup: [],
                 joinBtn: true,
-                join: []
+                join: [],
+                addClass: false
             }
+        },
+        component: {
+            StudentAccess
         },
         watch: {
             select () {
                 this.bruteForce()
-            }
-        },
-        computed: {
-            isAdmin () {
-                if (this.$store.state.settings.schoolId === this.schoolId && this.$store.state.settings.admin) {
-                    return 'You is ADMIN this school'
-                } else {
-                    return 'You is not ADMIN this school'
-                }
             }
         },
         methods: {
@@ -246,7 +245,22 @@
                         this.gGroup = [];
                         for (let [l] of Object.entries(this.globalSchool[key].globalDiary)) {
                             for (let [g, gVal] of Object.entries(this.globalSchool[key].globalDiary[l])) {
-                                this.gGroup.push({cl: `${l}${g}`, admin: gVal.admin});
+                                let user = '';
+                                if (this.$store.state.settings.schoolId === this.schoolId) {
+                                    if (this.$store.state.settings.lvl === l) {
+                                        if (this.$store.state.settings.grp === g) {
+                                            if (this.$store.state.settings.admin) {
+                                                this.addClass = true;
+                                                user = 'admin'
+                                            } else if (this.$store.state.settings.student) {
+                                                this.addClass = true;
+                                                user = 'student'
+                                            }
+                                        }
+                                    }
+                                }
+
+                                this.gGroup.push({cl: `${l}${g}`, admin: gVal.admin, user});
                             }
                         }
                         return
