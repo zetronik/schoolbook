@@ -33,10 +33,12 @@
                                 <tbody>
                                 <tr v-for="(day, index) in item.dayLesson" :key="index">
                                     <td>
-                                        <v-icon @click="editHomework(day.lesson, item.dayLesson, index, i, day.homework)">mdi-pencil</v-icon>
+                                        <v-btn icon @click="editDialog(day.lesson, item.dayLesson, index, i, day.homework)">
+                                            <v-icon >mdi-pencil</v-icon>
+                                        </v-btn>
                                         {{day.lesson}}</td>
-                                    <td>
-                                        {{day.homework}}
+                                    <td v-if="day.homework">
+                                        <v-icon v-for="n in day.homework.length">mdi-book-open-page-variant</v-icon>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -68,18 +70,45 @@
                         </v-toolbar-items>
                     </v-toolbar>
                     <v-input class="ma-2">
-                        Lesson: <v-text-field class="ml-1" dense v-model="less"></v-text-field>
+                        Lesson: <v-text-field
+                            :disabled="!$store.state.settings.admin"
+                            class="ml-1"
+                            dense
+                            v-model="less"></v-text-field>
                     </v-input>
                     <v-divider></v-divider>
+                    <v-card>
+                        <v-list-item-group color="primary">
+                            <v-list-item
+                                    v-for="(item, i) in work"
+                                    :key="i"
+                            >
+                                <v-list-item-content>
+                                    <v-list-item-title v-text="item.homework"></v-list-item-title>
+                                    <v-list-item-action-text v-text="item.name"></v-list-item-action-text>
+                                </v-list-item-content>
+                                <v-list-item-action v-if="item.id === $store.state.user.user.id">
+                                    <v-btn icon @click="editHomework(i)">
+                                        <v-icon>mdi-pencil-outline</v-icon>
+                                    </v-btn>
+                                    <v-btn icon @click="delHomework(i)">
+                                        <v-icon>mdi-delete-forever-outline</v-icon>
+                                    </v-btn>
+                                </v-list-item-action>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-card>
                     <v-textarea
                             class="ma-2"
                             outlined
                             width="100%"
                             name="input-7-4"
                             label="Home work"
-                            v-model="work"
-                            :value="work"
+                            v-model="homework"
+                            :value="homework"
                     ></v-textarea>
+                    <v-btn @click="saveHomework(homework)" color="secondary">Save</v-btn>
+                    <v-btn @click="clearHomework" color="warning">Clear</v-btn>
                 </v-card>
             </v-dialog>
         </v-col>
@@ -106,7 +135,8 @@
             day: null,
             index: null,
             less: '',
-            work: ''
+            work: [],
+            homework: ''
         }),
         computed: {
             loading () {
@@ -120,18 +150,40 @@
             }
         },
         methods: {
-            editHomework (less, deyLesson, index, day, work) {
+            delHomework (val) {
+                this.work.splice(val, 1)
+            },
+            editHomework (val) {
+                this.homework = this.work[val].homework;
+                this.delHomework(val)
+            },
+            saveHomework (val) {
+                this.work.push({
+                    name: `${this.$store.state.settings.name} ${this.$store.state.settings.surname}`,
+                    homework: val,
+                    id: this.$store.state.user.user.id
+                });
+                this.clearHomework()
+            },
+            clearHomework () {
+                this.homework = ''
+            },
+            editDialog (less, deyLesson, index, day, work) {
+                this.work = [];
                 this.dialog = true;
                 this.less = less;
                 this.day = day;
                 this.index = index;
-                this.work = work;
+                if (typeof work === 'object') {
+                    this.work = work;
+                }
             },
             saveDialog () {
                 this.dialog = false;
                 this.$parent.globalWeek[this.day].dayLesson[this.index].homework = this.work;
                 this.$parent.globalWeek[this.day].dayLesson[this.index].lesson = this.less;
-                this.syncDiary()
+                this.syncDiary();
+                this.clearHomework()
             },
             async downloadDiary () {
                 if (this.$store.state.settings.schoolId !== null) {
