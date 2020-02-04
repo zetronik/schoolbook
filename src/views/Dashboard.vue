@@ -1,25 +1,27 @@
 <template>
-    <v-row class="ma-0">
-       <v-col cols="12" class="d-flex justify-space-between align-center ma-0">
-            <v-btn @click="lessWeek" min-width="150px" width="50%">My Diary</v-btn>
-            <v-btn :disabled="!access" @click="globWeek" min-width="150px" width="50%">Global Diary</v-btn>
-        </v-col>
-        <v-col class="d-flex justify-space-between align-center ma-0">
-            <v-btn class="mx-2" fab color="info" @click="pastWeeks">
-                <v-icon class="display-2" dark>mdi-arrow-left-drop-circle-outline</v-icon>
-            </v-btn>
-            <p class="text-center title">{{dashWeeks}}</p>
-            <v-btn class="mx-2" fab dark color="info" @click="nextWeeks">
-                <v-icon class="display-2" dark>mdi-arrow-right-drop-circle-outline</v-icon>
-            </v-btn>
-        </v-col>
-        <v-col v-if="my" sm="12" lg="12">
-            <lesson-week :diaryWeek="diaryWeek" :start="start"></lesson-week>
-        </v-col>
-        <v-col v-if="global" sm="12" lg="12">
-            <global-week :globalWeek="globalWeek" :start="start"></global-week>
-        </v-col>
-    </v-row>
+    <v-container>
+        <v-row class="ma-0">
+           <v-col cols="12" class="d-flex justify-space-between align-center ma-0">
+                <v-btn color="accent" class="mr-1" @click="lessWeek" min-width="150px" width="50%">{{$vuetify.lang.t(`$vuetify.dashboard.myDiary`)}}</v-btn>
+                <v-btn color="accent" class="ml-1" :disabled="!access" @click="globWeek" min-width="150px" width="50%">{{$vuetify.lang.t(`$vuetify.dashboard.globalDiary`)}}</v-btn>
+            </v-col>
+            <v-col class="d-flex justify-space-between align-center ma-0">
+                <v-btn class="mx-2" fab color="info" @click="pastWeeks">
+                    <v-icon class="display-2" dark>mdi-arrow-left-drop-circle-outline</v-icon>
+                </v-btn>
+                <p class="text-center title">{{dashWeeks}}</p>
+                <v-btn class="mx-2" fab dark color="info" @click="nextWeeks">
+                    <v-icon class="display-2" dark>mdi-arrow-right-drop-circle-outline</v-icon>
+                </v-btn>
+            </v-col>
+            <v-col v-if="my" sm="12" lg="12">
+                <lesson-week :diaryWeek="diaryWeek" :start="start"></lesson-week>
+            </v-col>
+            <v-col v-if="global" sm="12" lg="12">
+                <global-week :globalWeek="globalWeek" :start="start"></global-week>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
@@ -46,7 +48,7 @@
             globalWeek: [],
             my: true,
             global: false,
-            access: false
+            access: false,
         }),
         computed: {
             loading () {
@@ -117,7 +119,6 @@
             globalWeek: GlobalDiary
         },
         async created () {
-            this.access = this.$store.state.settings.access;
             const date = Date.now();
             this.date = new Date(date);
             const week = this.date.getDay();
@@ -135,6 +136,7 @@
             this.dashWeeks = `${startDay}.${startMonth}.${startYear}-${endDay}.${endMonth}.${endYear}`;
             this.$store.state.diary.weeks = this.start;
             this.$store.state.global.weeks = this.start;
+            this.access = this.$store.state.settings.access;
         },
         beforeDestroy() {
             this.diaryWeek = [];

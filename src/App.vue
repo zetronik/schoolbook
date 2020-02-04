@@ -19,7 +19,7 @@
                         <v-icon>mdi-logout-variant</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>Exit</v-list-item-title>
+                        <v-list-item-title>{{$vuetify.lang.t(`$vuetify.app.menu.exit`)}}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -32,7 +32,7 @@
                 color="primary"
         >
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-            <v-toolbar-title>Application</v-toolbar-title>
+            <v-toolbar-title>{{$vuetify.lang.t(`$vuetify.app.title`)}}</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-switch class="mt-6" v-model="$vuetify.theme.dark"></v-switch>
         </v-app-bar>
@@ -50,12 +50,21 @@
                     :value="true"
             >
                 {{error}}
-                <v-btn dark @click.native="closeError">close</v-btn>
+                <v-btn dark @click.native="closeError">{{$vuetify.lang.t(`$vuetify.close`)}}</v-btn>
             </v-snackbar>
         </template>
-        <v-footer app color="primary">
-            <span>&copy; {{copyDate.getFullYear()}}</span>
-        </v-footer>
+        <template v-if="msg">
+            <v-snackbar
+                    :left="true"
+                    :timeout="3000"
+                    :multi-line="true"
+                    color="info"
+                    @input="closeMsg"
+                    :value="true"
+            >
+                {{msg}}
+            </v-snackbar>
+        </template>
     </v-app>
 </template>
 
@@ -63,8 +72,8 @@
     export default {
         data: () => ({
             drawer: null,
-            copyDate: new Date(),
-            dark: false
+            dark: false,
+            message: null
         }),
         methods: {
             closeError () {
@@ -73,9 +82,15 @@
             onLogout () {
                 this.$store.dispatch('logoutUser');
                 this.$router.push('/')
-            }
+            },
+            closeMsg () {
+                this.$store.dispatch('clearMsg')
+            },
         },
         computed: {
+            msg () {
+                return  this.$store.getters.msg
+            },
             error () {
                 return this.$store.getters.error
             },
@@ -85,16 +100,16 @@
             links() {
                 if (this.isUserLoggedIn) {
                     return [
-                        {title: 'Home', url: '/', icon: 'mdi-home'},
-                        {title: 'Dashboard', url: '/dashboard', icon: 'mdi-view-dashboard'},
-                        {title: 'Global diary', url: '/global', icon: 'mdi-settings'},
-                        {title: 'Settings', url: '/settings', icon: 'mdi-settings'},
+                        {title: this.$vuetify.lang.t('$vuetify.app.menu.home'), url: '/', icon: 'mdi-home'},
+                        {title: this.$vuetify.lang.t('$vuetify.app.menu.dashboard'), url: '/dashboard', icon: 'mdi-view-dashboard'},
+                        {title: this.$vuetify.lang.t('$vuetify.app.menu.globalDiary'), url: '/global', icon: 'mdi-settings'},
+                        {title: this.$vuetify.lang.t('$vuetify.app.menu.settings'), url: '/settings', icon: 'mdi-settings'},
                     ]
                 }
                 return [
-                    {title: 'Home', url: '/', icon: 'mdi-home'},
-                    {title: 'Login', url: '/login', icon: 'mdi-account'},
-                    {title: 'Registration', url: '/registration', icon: 'mdi-account-plus'}
+                    {title: this.$vuetify.lang.t('$vuetify.app.menu.home'), url: '/', icon: 'mdi-home'},
+                    {title: this.$vuetify.lang.t('$vuetify.app.menu.login'), url: '/login', icon: 'mdi-account'},
+                    {title: this.$vuetify.lang.t('$vuetify.app.menu.registration'), url: '/registration', icon: 'mdi-account-plus'}
                 ]
             }
         }

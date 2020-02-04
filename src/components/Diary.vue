@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col cols="12">
-            <h4 class="text-center">My Diary</h4>
+            <h4 class="text-center">{{$vuetify.lang.t(`$vuetify.dashboard.myDiary`)}}</h4>
         </v-col>
         <v-col cols="12" v-if="loading">
             <v-progress-linear
@@ -20,14 +20,14 @@
                         v-for="(item, i) in diaryWeek"
                         :key="i"
                 >
-                    <v-expansion-panel-header>{{ item.dayWeeks }}</v-expansion-panel-header>
+                    <v-expansion-panel-header>{{$vuetify.lang.t(`$vuetify.dashboard.day[${i}]`)}}</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-simple-table>
                             <template v-slot:default>
                                 <thead>
                                 <tr>
-                                    <th class="text-left title">Lesson</th>
-                                    <th class="text-left title">Homework</th>
+                                    <th class="text-left title">{{$vuetify.lang.t(`$vuetify.dashboard.lessons`)}}</th>
+                                    <th class="text-left title">{{$vuetify.lang.t(`$vuetify.dashboard.homework`)}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -47,9 +47,9 @@
             </v-expansion-panels>
         </v-col>
         <v-col cols="12" md="12" class="d-flex justify-space-between align-center wrap">
-            <v-btn :loading="upload" @click="syncDiary" color="secondary">Save</v-btn>
-            <v-btn :loading="download" @click="downloadDiary" color="warning">Download</v-btn>
-            <v-btn @click="writeIn" color="info">Write in</v-btn>
+            <v-btn :loading="upload" @click="syncDiary" color="secondary">{{$vuetify.lang.t(`$vuetify.dashboard.save`)}}</v-btn>
+            <v-btn :loading="download" @click="downloadDiary" color="warning">{{$vuetify.lang.t(`$vuetify.dashboard.download`)}}</v-btn>
+            <v-btn @click="writeIn" color="info">{{$vuetify.lang.t(`$vuetify.dashboard.wraitIn`)}}</v-btn>
         </v-col>
         <v-col
                 sm="12"
@@ -61,14 +61,14 @@
                         <v-btn icon dark @click="dialog = false">
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
-                        <v-toolbar-title>Settings</v-toolbar-title>
+                        <v-toolbar-title>{{$vuetify.lang.t(`$vuetify.dashboard.record`)}}</v-toolbar-title>
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
-                            <v-btn dark text @click="saveDialog">Save</v-btn>
+                            <v-btn dark text @click="saveDialog">{{$vuetify.lang.t(`$vuetify.dashboard.save`)}}</v-btn>
                         </v-toolbar-items>
                     </v-toolbar>
                     <v-input class="ma-2">
-                        Lesson: <v-text-field class="ml-1" dense v-model="less"></v-text-field>
+                        {{$vuetify.lang.t(`$vuetify.dashboard.lesson`)}}: <v-text-field class="ml-1" dense v-model="less"></v-text-field>
                     </v-input>
                     <v-divider></v-divider>
                     <v-textarea
@@ -76,7 +76,7 @@
                             outlined
                             width="100%"
                             name="input-7-4"
-                            label="Home work"
+                            :label="$vuetify.lang.t(`$vuetify.dashboard.homework`)"
                             v-model="work"
                             :value="work"
                     ></v-textarea>

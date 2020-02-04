@@ -1,13 +1,14 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
 import '@mdi/font/css/materialdesignicons.css'
-import ru from '../local/ru.ts'
+import ru from '../local/ru'
+import uk from '../local/uk'
 
 Vue.use(Vuetify);
 
 export default new Vuetify({
     lang: {
-        locales: { ru },
+        locales: { ru, uk },
         current: 'ru',
     },
     icons: {
@@ -27,7 +28,7 @@ export default new Vuetify({
             dark: {
                 primary: '#BB86FC',
                 secondary: '#03DAC6',
-                accent: '#ff0266',
+                accent: '#ff5722',
                 error: '#CF6679',
                 warning: '#8bc34a',
                 info: '#ff9800',

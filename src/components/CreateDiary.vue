@@ -24,12 +24,12 @@
             years: null,
             book: {},
             base: [
-                {dayWeeks: 'Понедельник', dayLesson: [{lesson: '', homework: ''}]},
-                {dayWeeks: 'Втоник', dayLesson: [{lesson: '', homework: ''}]},
-                {dayWeeks: 'Среда', dayLesson: [{lesson: '', homework: ''}]},
-                {dayWeeks: 'Четверг', dayLesson: [{lesson: '', homework: ''}]},
-                {dayWeeks: 'Пятница', dayLesson: [{lesson: '', homework: ''}]},
-                {dayWeeks: 'Суббота', dayLesson: [{lesson: '', homework: ''}]}
+                {dayLesson: [{lesson: '', homework: ''}]},
+                {dayLesson: [{lesson: '', homework: ''}]},
+                {dayLesson: [{lesson: '', homework: ''}]},
+                {dayLesson: [{lesson: '', homework: ''}]},
+                {dayLesson: [{lesson: '', homework: ''}]},
+                {dayLesson: [{lesson: '', homework: ''}]}
             ],
             edit: true
         }),

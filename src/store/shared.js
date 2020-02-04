@@ -3,7 +3,8 @@ export default {
     download: false,
     upload: false,
     loading: false,
-    error: null
+    error: null,
+    msg: null
   },
   mutations: {
     setLoading (state, payload) {
@@ -20,7 +21,13 @@ export default {
     },
     setUpload (state, payload) {
       state.upload = payload
-    }
+    },
+    setMsg (state, payload) {
+      state.msg = payload
+    },
+    clearMsg (state) {
+      state.msg = null
+    },
   },
   actions: {
     setLoading ({commit}, payload) {
@@ -37,7 +44,13 @@ export default {
     },
     setUpload ({commit}, payload) {
       commit('setUpload', payload)
-    }
+    },
+    setMsg ({commit}, payload) {
+      commit('setMsg', payload)
+    },
+    clearMsg ({commit}) {
+      commit('clearMsg')
+    },
   },
   getters: {
     loading (state) {
@@ -51,6 +64,9 @@ export default {
     },
     upload (state) {
       return state.upload
+    },
+    msg (state) {
+      return state.msg
     }
   }
 }

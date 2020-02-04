@@ -14,7 +14,7 @@
                     <v-btn :loading="loading" @click="writeIn" color="accent" class="ml-2">Write in</v-btn>
                 </v-col>
                 <v-col cols="12" md="4" v-for="(day, dayWeek) in diary">
-                    <p class="text--primary text-center display-1">{{day.dayWeeks}}</p>
+                    <p class="text--primary text-center display-1">{{$vuetify.lang.t(`$vuetify.dashboard.day[${dayWeek}]`)}}</p>
                     <v-text-field
                             dense
                             v-for="(less, index) in day.dayLesson"
