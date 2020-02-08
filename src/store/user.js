@@ -1,4 +1,6 @@
-import * as firebase from 'firebase'
+import * as firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/auth';
 
 class User {
     constructor (id) {
@@ -21,7 +23,6 @@ export default {
             commit('setLoading', true);
             try {
                 const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
-                sessionStorage.id = user.uid;
                 commit('setUser', new User(user.uid));
                 commit('setLoading', false)
             } catch (error) {
@@ -42,7 +43,6 @@ export default {
                             commit('setSettings', setting)
                         }
                     });
-                localStorage.id = user.user.uid;
                 commit('setUser', new User(user.user.uid));
                 commit('setLoading', false)
             } catch (error) {
@@ -64,7 +64,6 @@ export default {
                                     commit('setSettings', setting)
                                 }
                             });
-                        localStorage.id = user.uid;
                         commit('setUser', new User(user.uid));
                     } else {
                         commit('setUser', null)

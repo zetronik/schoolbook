@@ -35,6 +35,17 @@
             <v-toolbar-title>{{$vuetify.lang.t(`$vuetify.app.title`)}}</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-switch class="mt-6" v-model="$vuetify.theme.dark"></v-switch>
+            <v-select
+                    :append-icon="''"
+                    class="local-change mt-6"
+                    dense
+                    v-model="appLocal"
+                    :items="items"
+                    item-text="name"
+                    item-value="local"
+                    outlined
+                    return-object
+            ></v-select>
         </v-app-bar>
 
         <v-content>
@@ -73,8 +84,19 @@
         data: () => ({
             drawer: null,
             dark: false,
-            message: null
+            message: null,
+            items: [
+                {name: 'RU', local: 'ru'},
+                {name: 'UA', local: 'uk'},
+            ],
+            appLocal: {name: 'RU', local: 'ru'}
         }),
+        watch: {
+            appLocal () {
+                this.$vuetify.lang.current = this.appLocal.local
+                localStorage.isLocal = this.appLocal.local
+            }
+        },
         methods: {
             closeError () {
                 this.$store.dispatch('clearError')
@@ -112,10 +134,20 @@
                     {title: this.$vuetify.lang.t('$vuetify.app.menu.registration'), url: '/registration', icon: 'mdi-account-plus'}
                 ]
             }
+        },
+        created() {
+            if (localStorage.isLocal !== undefined) {
+                this.$vuetify.lang.current = localStorage.isLocal;
+                this.appLocal = this.items.find(i => i.local === localStorage.isLocal)
+            }
+
         }
     }
 </script>
 <style scoped>
-
+.local-change {
+    max-width: 52px !important;
+    min-width: 52px !important;
+}
 </style>
 

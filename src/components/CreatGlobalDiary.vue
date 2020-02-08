@@ -5,14 +5,18 @@
                     :disabled="edit"
                     v-model="years"
                     :items="selectYears"
-                    label="Выбрать начало учебного года"
+                    :label="$vuetify.lang.t(`$vuetify.settings.academicYear`)"
             >
                 <template v-slot:selection="{ item, index }">
                     <span>{{item}}-{{item+1}}</span>
                 </template>
             </v-select>
-            <v-btn :disabled="edit" @click="createDiary" color="secondary">Create Diary</v-btn>
-            <v-btn @click="edit = !edit" color="error" class="ml-2">Edit</v-btn>
+            <v-btn :disabled="edit" @click="createDiary" color="secondary" large>
+                <v-icon>mdi-credit-card-plus</v-icon>
+            </v-btn>
+            <v-btn @click="edit = !edit" color="error" class="ml-2" large>
+                <v-icon>mdi-pencil-outline</v-icon>
+            </v-btn>
         </v-col>
     </v-row>
 </template>

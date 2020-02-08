@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col cols="12">
-                <v-btn to="/global"><v-icon>mdi-arrow-left-circle</v-icon>back to the global diary</v-btn>
+                <v-btn to="/global" color="accent"><v-icon>mdi-arrow-left-circle</v-icon></v-btn>
             </v-col>
             <v-col cols="12">
                 <v-select outlined
@@ -11,13 +11,13 @@
                           :items="items"
                           item-text="school"
                           item-value="id"
-                          label="Group change"
+                          :label="$vuetify.lang.t(`$vuetify.settings.schoolChanhe`)"
                           return-object
                 ></v-select>
             </v-col>
             <v-col>
-                <v-btn :disabled="getBtn" @click="getSchool" color="primary">New Diary</v-btn>
-                <v-btn class="ml-2" :disabled="joinBtn" @click="joinDiary(join)" color="primary">Join Diary {{join.join('')}}</v-btn>
+                <v-btn :disabled="getBtn" @click="getSchool" color="primary">{{$vuetify.lang.t(`$vuetify.admin.newDiary`)}}</v-btn>
+                <v-btn class="ml-2" :disabled="joinBtn" @click="joinDiary(join)" color="primary">{{$vuetify.lang.t(`$vuetify.admin.joinDiary`)}} {{join.join('')}}</v-btn>
             </v-col>
         </v-row>
         <v-row>

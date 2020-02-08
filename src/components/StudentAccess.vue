@@ -1,13 +1,13 @@
 <template>
     <v-container>
         <v-col cols="12">
-            <v-btn width="100%" @click="uploadStudent">Upload Student</v-btn>
+            <v-btn width="100%" @click="uploadStudent">{{$vuetify.lang.t(`$vuetify.admin.uploadStudent`)}}</v-btn>
         </v-col>
         <v-col cols="12" v-if="table">
             <v-data-table
                 :headers="headers"
                 :items="student"
-                sort-by="calories"
+                sort-by="user"
                 class="elevation-1"
             >
                 <template v-slot:item.action="{ item }">
@@ -61,6 +61,9 @@
                 const setAccess = [id, {access}, sId];
                 await this.$store.dispatch('setAccess', setAccess);
             }
+        },
+        created() {
+            console.log(this.$vuetify.lang.t('$vuetify.admin.student'))
         }
     }
 </script>

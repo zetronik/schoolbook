@@ -9,9 +9,13 @@
         <v-container>
             <v-row class="d-flex justify-space-around">
                 <v-col cols="12" md="12">
-                    <h3 class="text--secondary text-center">Расписание уроков</h3>
-                    <v-btn :disabled="btnSave" :loading="loading" @click="saveDiary" color="secondary">Save</v-btn>
-                    <v-btn :loading="loading" @click="writeIn" color="accent" class="ml-2">Write in</v-btn>
+                    <h3 class="text--secondary text-center">{{$vuetify.lang.t(`$vuetify.settings.timetable`)}}</h3>
+                    <v-btn :disabled="btnSave" :loading="loading" @click="saveDiary" color="secondary" large>
+                        <v-icon>mdi-content-save-all</v-icon>
+                    </v-btn>
+                    <v-btn :loading="loading" @click="writeIn" color="accent" class="ml-2" large>
+                        <v-icon>mdi-cloud-download</v-icon>
+                    </v-btn>
                 </v-col>
                 <v-col cols="12" md="4" v-for="(day, dayWeek) in diary">
                     <p class="text--primary text-center display-1">{{$vuetify.lang.t(`$vuetify.dashboard.day[${dayWeek}]`)}}</p>

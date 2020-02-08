@@ -5,6 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _default = {
+    msg: {
+        write: 'Не забудь сохранить запись :)))'
+    },
     app: {
         title: 'Школьный дневник',
         menu: {
@@ -28,8 +31,8 @@ var _default = {
         registration: 'Регистрация'
     },
     dashboard: {
-        myDiary: 'Мой Дневник',
-        globalDiary: 'Глобальный Дневник',
+        myDiary: 'Мой',
+        globalDiary: 'Глобальный',
         save: 'Сохранить',
         download: 'Загрузить',
         wraitIn: 'Заполнить',
@@ -46,6 +49,27 @@ var _default = {
             'Пятница',
             'Суббота',
         ]
+    },
+    settings: {
+        name: 'Имя',
+        surname: 'Фамилия',
+        schoolChanhe: 'Выбрать школу',
+        classChenge: 'Выбрать класс',
+        groupChange: 'Выбрать группу',
+        academicYear: 'Выбрать год начала учебного периода',
+        timetable: 'Расписание уроков',
+        save: 'Сохранить',
+        edit: 'Редактировать',
+        createDiary: 'Создать',
+        upload: 'Загрузить',
+        admin: 'Создать или подключиться к глобальному дневнику'
+    },
+    admin: {
+        newDiary: 'Новый Дневник',
+        joinDiary: 'Присоеденится к',
+        uploadStudent: 'Загрузить список учеников',
+        student: 'Ученик',
+        access: 'Доступ'
     },
     close: 'Закрыть',
     dataIterator: {

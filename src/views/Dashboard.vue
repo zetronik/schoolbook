@@ -137,6 +137,7 @@
             this.$store.state.diary.weeks = this.start;
             this.$store.state.global.weeks = this.start;
             this.access = this.$store.state.settings.access;
+
         },
         beforeDestroy() {
             this.diaryWeek = [];

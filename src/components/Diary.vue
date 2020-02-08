@@ -3,6 +3,14 @@
         <v-col cols="12">
             <h4 class="text-center">{{$vuetify.lang.t(`$vuetify.dashboard.myDiary`)}}</h4>
         </v-col>
+        <v-col cols="12" md="12" class="d-flex justify-space-between align-center wrap">
+            <v-btn :loading="download" @click="downloadDiary" color="warning" dark large>
+                <v-icon>mdi-cloud-download</v-icon>
+            </v-btn>
+            <v-btn :loading="upload" @click="syncDiary" color="secondary" dark large>
+                <v-icon>mdi-content-save-all</v-icon>
+            </v-btn>
+        </v-col>
         <v-col cols="12" v-if="loading">
             <v-progress-linear
                     indeterminate
@@ -46,10 +54,10 @@
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-col>
-        <v-col cols="12" md="12" class="d-flex justify-space-between align-center wrap">
-            <v-btn :loading="upload" @click="syncDiary" color="secondary">{{$vuetify.lang.t(`$vuetify.dashboard.save`)}}</v-btn>
-            <v-btn :loading="download" @click="downloadDiary" color="warning">{{$vuetify.lang.t(`$vuetify.dashboard.download`)}}</v-btn>
-            <v-btn @click="writeIn" color="info">{{$vuetify.lang.t(`$vuetify.dashboard.wraitIn`)}}</v-btn>
+        <v-col cols="12" md="12" class="d-flex justify-center align-center wrap">
+            <v-btn @click="writeIn" color="info" large>
+                <v-icon>mdi-calendar-edit</v-icon>
+            </v-btn>
         </v-col>
         <v-col
                 sm="12"

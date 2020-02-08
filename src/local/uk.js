@@ -5,8 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _default = {
+    msg: {
+        write: 'Не забудь зберегти запис :)))'
+    },
     app: {
-        title: 'Шкільний щоленник',
+        title: 'Шкільний щоденник',
         menu: {
             home: 'Головна',
             dashboard: 'Щоденник',
@@ -27,8 +30,8 @@ var _default = {
         registration: 'Регістрація'
     },
     dashboard: {
-        myDiary: 'Мій щоденник',
-        globalDiary: 'Глобальний щоденник',
+        myDiary: 'Мій',
+        globalDiary: 'Глобальний',
         save: 'Зберегти',
         download: 'Завантажити',
         wraitIn: 'Заповнити',
@@ -45,6 +48,27 @@ var _default = {
             'П\'ятниця',
             'Субота',
         ]
+    },
+    settings: {
+        name: 'Ім\'я',
+        surname: 'Фамілія',
+        schoolChanhe: 'Вибрати школу',
+        classChenge: 'Вибрати клас',
+        groupChange: 'Вибрат групу',
+        academicYear: 'Вибрати рік навчання учбового періоду',
+        timetable: 'Розклад занять',
+        save: 'Зберегти',
+        edit: 'Редагувати',
+        createDiary: 'Створити',
+        upload: 'Завантажити',
+        admin: 'Створити або підключитися до глобального щоденника'
+    },
+    admin: {
+        newDiary: 'Новый Щоденник',
+        joinDiary: 'ПРиєднатися',
+        uploadStudent: 'Завантажити список учнів',
+        student: 'Учень',
+        access: 'Доступ'
     },
     close: 'Закрити',
     dataIterator: {

@@ -2,8 +2,8 @@
     <v-form>
         <v-row>
             <v-col cols="12" md="6">
-                <v-text-field :disabled="edit" dense v-model="name" label="Name"></v-text-field>
-                <v-text-field :disabled="edit" dense v-model="surname" label="Surname"></v-text-field>
+                <v-text-field :disabled="edit" dense v-model="name" :label="$vuetify.lang.t(`$vuetify.settings.name`)"></v-text-field>
+                <v-text-field :disabled="edit" dense v-model="surname" :label="$vuetify.lang.t(`$vuetify.settings.surname`)"></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
                 <v-select dense
@@ -12,7 +12,7 @@
                           :items="items"
                           item-text="school"
                           item-value="id"
-                          label="School change"
+                          :label="$vuetify.lang.t(`$vuetify.settings.schoolChanhe`)"
                           return-object
                 ></v-select>
                 <v-row>
@@ -23,7 +23,7 @@
                                   :items="level"
                                   item-text="school"
                                   item-value="id"
-                                  label="Class change"
+                                  :label="$vuetify.lang.t(`$vuetify.settings.classChenge`)"
                                   return-object
                         ></v-select>
                     </v-col>
@@ -34,15 +34,19 @@
                                   :items="group"
                                   item-text="school"
                                   item-value="id"
-                                  label="Group change"
+                                  :label="$vuetify.lang.t(`$vuetify.settings.groupChange`)"
                                   return-object
                         ></v-select>
                     </v-col>
                 </v-row>
             </v-col>
             <v-col cols="12">
-                <v-btn :disabled="edit" :loading="loading" @click="saveUser" color="secondary">Save</v-btn>
-                <v-btn @click="edit = !edit" color="error" class="ml-2">Edit</v-btn>
+                <v-btn :disabled="edit" :loading="loading" @click="saveUser" color="secondary" large>
+                    <v-icon>mdi-content-save-all</v-icon>
+                </v-btn>
+                <v-btn @click="edit = !edit" color="error" class="ml-2" large>
+                    <v-icon>mdi-account-edit</v-icon>
+                </v-btn>
             </v-col>
         </v-row>
     </v-form>

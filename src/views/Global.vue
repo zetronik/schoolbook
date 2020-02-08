@@ -2,18 +2,26 @@
     <v-container>
         <v-row>
             <v-col cols="12">
-                <v-btn to="/global/admin"><v-icon>mdi-arrow-right-circle</v-icon>create or connect to the global diary</v-btn>
+            <div class="mb-4">
+                <v-sheet class="text-center" width="100%" color="accent lighten-2">{{$vuetify.lang.t(`$vuetify.settings.admin`)}}</v-sheet>
+            </div>
+
+                <v-btn to="/global/admin" color="accent"><v-icon>mdi-arrow-right-circle</v-icon></v-btn>
             </v-col>
         </v-row>
             <creat-global-diary v-if="boolComponent" :writeIn="writeIn"></creat-global-diary>
         <v-row class="d-flex justify-space-around">
             <v-col cols="12" md="12">
-                <h3 class="text--secondary text-center">Расписание уроков</h3>
-                <v-btn v-if="boolComponent" :disabled="btnSave" :loading="loading" @click="saveDiary" color="secondary">Save</v-btn>
-                <v-btn :loading="loading" @click="writeIn" color="accent" class="ml-2">Write in</v-btn>
+                <h3 class="text--secondary text-center">{{$vuetify.lang.t(`$vuetify.settings.timetable`)}}</h3>
+                <v-btn v-if="boolComponent" :disabled="btnSave" :loading="loading" @click="saveDiary" color="secondary" large>
+                    <v-icon>mdi-content-save-all</v-icon>
+                </v-btn>
+                <v-btn :loading="loading" @click="writeIn" color="accent" class="ml-2" large>
+                    <v-icon>mdi-cloud-download</v-icon>
+                </v-btn>
             </v-col>
             <v-col cols="12" md="4" v-for="(day, dayWeek) in diary">
-                <p class="text--primary text-center display-1">{{day.dayWeeks}}</p>
+                <p class="text--primary text-center display-1">{{$vuetify.lang.t(`$vuetify.dashboard.day[${dayWeek}]`)}}</p>
                 <v-text-field
                         dense
                         :disabled="!boolComponent"
