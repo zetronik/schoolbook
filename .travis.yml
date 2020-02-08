@@ -1,7 +1,0 @@
-before_deploy: "echo 'ready?'"
-deploy:
-  provider: firebase
-  token:
-    secure: $FIREBASE_TOKEN
-  project: "schoolbook-dpua"
-  message: "Deploying!!!"
