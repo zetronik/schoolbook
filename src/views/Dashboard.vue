@@ -35,7 +35,13 @@
     const year = new Date(startDay.valueOf()).getFullYear();
     const month = new Date(startDay.valueOf()).getMonth();
     let hour = 0;
-    if (new Date(year, 6,1,0,0,0,0).getTimezoneOffset() - date.getTimezoneOffset() === 60) {hour = 1}
+    if (new Date(year, 6,1,0,0,0,0).getTimezoneOffset() - date.getTimezoneOffset() === 60) {
+        hour = 1
+    } else {
+        if (new Date(year, 6,1,0,0,0,0).getTimezoneOffset() === date.getTimezoneOffset()) {
+            hour = 1
+        }
+    }
     const start = new Date(year, month, startDay.getDate(), hour,0,0,0).valueOf();
 
     export default {
